@@ -2156,9 +2156,9 @@ async function callOpenRouter(userMessage) {
   let lastError = null;
   // Модели от надёжных к запасным
   const models = [
-    'openai/gpt-4o-mini',
-    'anthropic/claude-haiku',
-    'meta-llama/llama-3.1-8b-instruct:free'
+    'meta-llama/llama-3.1-8b-instruct:free',
+    'mistralai/mistral-7b-instruct:free',
+    'google/gemma-2-9b-it:free'
   ];
   for (const model of models) {
     try {
@@ -2167,7 +2167,7 @@ async function callOpenRouter(userMessage) {
         headers: {
           'Authorization': 'Bearer ' + OPENROUTER_KEY,
           'Content-Type': 'application/json',
-          'HTTP-Referer': window.location.origin,
+          'HTTP-Referer': SITE_URL,
           'X-Title': 'TalentScope'
         },
         body: JSON.stringify({
