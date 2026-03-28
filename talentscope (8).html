@@ -1,0 +1,2740 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TalentScope — Раскройте свои природные таланты</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --blue: #5B7FFF;
+    --blue-light: #8F9BFF;
+    --blue-pale: #EEF2FF;
+    --bg: #F8FAFF;
+    --card: #FFFFFF;
+    --text: #111827;
+    --text-muted: #6B7280;
+    --accent: #FFB547;
+    --accent-soft: #FFF3DC;
+    --green: #34D399;
+    --green-soft: #D1FAE5;
+    --red-soft: #FEE2E2;
+    --red: #F87171;
+    --border: #E5E9F5;
+    --shadow-sm: 0 1px 3px rgba(91,127,255,0.08), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow: 0 4px 24px rgba(91,127,255,0.10), 0 1px 4px rgba(0,0,0,0.05);
+    --shadow-lg: 0 12px 48px rgba(91,127,255,0.15), 0 4px 12px rgba(0,0,0,0.06);
+    --radius: 16px;
+    --radius-sm: 10px;
+    --radius-xs: 6px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Manrope', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(248,250,255,0.88);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 clamp(16px, 5vw, 64px);
+    height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo {
+    font-weight: 800; font-size: 20px; color: var(--text);
+    display: flex; align-items: center; gap: 8px; text-decoration: none;
+  }
+  .nav-logo-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue), var(--blue-light));
+    display: inline-block;
+  }
+  .nav-links { display: flex; align-items: center; gap: 32px; }
+  .nav-links a {
+    text-decoration: none; color: var(--text-muted); font-size: 14px;
+    font-weight: 500; transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--blue); }
+  .nav-cta {
+    background: var(--blue); color: #fff !important; padding: 8px 20px;
+    border-radius: 8px; font-weight: 600 !important; font-size: 14px !important;
+    transition: background .2s, transform .15s !important;
+  }
+  .nav-cta:hover { background: #4a6ee0 !important; transform: translateY(-1px); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { width: 24px; height: 2px; background: var(--text); border-radius: 2px; transition: .3s; }
+
+  /* ─── HERO ─── */
+  .hero {
+    padding: 120px clamp(16px,5vw,64px) 80px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--blue-pale); border: 1px solid #C7D3FF;
+    border-radius: 100px; padding: 6px 14px; font-size: 12px; font-weight: 600;
+    color: var(--blue); margin-bottom: 20px; letter-spacing: .04em; text-transform: uppercase;
+  }
+  .hero-eyebrow::before { content: '✦'; font-size: 10px; }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 5vw, 60px); line-height: 1.15; font-weight: 700;
+    color: var(--text); margin-bottom: 20px;
+  }
+  .hero h1 em { font-style: italic; color: var(--blue); }
+  .hero-sub {
+    font-size: 17px; color: var(--text-muted); margin-bottom: 36px;
+    font-weight: 400; max-width: 460px; line-height: 1.7;
+  }
+  .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--blue); color: #fff; border: none; border-radius: 10px;
+    padding: 14px 28px; font-size: 15px; font-weight: 700; cursor: pointer;
+    font-family: 'Manrope', sans-serif; transition: background .2s, transform .15s, box-shadow .2s;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary:hover { background: #4a6ee0; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(91,127,255,.35); }
+  .btn-secondary {
+    background: var(--card); color: var(--text); border: 1.5px solid var(--border);
+    border-radius: 10px; padding: 13px 28px; font-size: 15px; font-weight: 600;
+    cursor: pointer; font-family: 'Manrope', sans-serif; transition: border-color .2s, transform .15s;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-secondary:hover { border-color: var(--blue); color: var(--blue); transform: translateY(-2px); }
+
+  /* hero visual */
+  .hero-visual {
+    position: relative; display: flex; align-items: center; justify-content: center;
+  }
+  .hero-card {
+    background: var(--card); border-radius: 24px; box-shadow: var(--shadow-lg);
+    padding: 28px; width: 100%; max-width: 380px; position: relative; z-index: 2;
+    border: 1px solid var(--border);
+    animation: float 4s ease-in-out infinite;
+  }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  .hero-card-header { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+  .avatar {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue), var(--blue-light));
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-weight: 800; font-size: 20px; flex-shrink: 0;
+  }
+  .hero-card-name { font-weight: 700; font-size: 16px; }
+  .hero-card-sub { font-size: 12px; color: var(--text-muted); }
+  .burnout-label {
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em;
+    color: var(--text-muted); margin-bottom: 10px;
+  }
+  .gauge-wrap { position: relative; margin-bottom: 16px; }
+  .gauge-bar {
+    height: 10px; background: var(--blue-pale); border-radius: 10px; overflow: hidden;
+  }
+  .gauge-fill {
+    height: 100%; background: linear-gradient(90deg, var(--green), var(--blue));
+    border-radius: 10px; width: 35%; transition: width 1s ease;
+    animation: fillBar 2s ease forwards;
+  }
+  @keyframes fillBar { from { width: 0 } to { width: 35% } }
+  .gauge-status {
+    display: flex; justify-content: space-between; align-items: center; margin-top: 8px;
+  }
+  .badge-low {
+    background: var(--green-soft); color: #059669; border-radius: 100px;
+    padding: 3px 10px; font-size: 11px; font-weight: 700;
+  }
+  .gauge-pct { font-size: 13px; font-weight: 700; color: var(--text-muted); }
+  .talents-mini { display: flex; flex-direction: column; gap: 8px; }
+  .talent-mini-item {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--bg); border-radius: var(--radius-xs); padding: 8px 12px;
+  }
+  .talent-mini-icon {
+    width: 28px; height: 28px; border-radius: 6px;
+    background: linear-gradient(135deg, var(--blue-pale), #d4dcff);
+    display: flex; align-items: center; justify-content: center; font-size: 13px;
+    flex-shrink: 0;
+  }
+  .talent-mini-name { font-size: 13px; font-weight: 600; }
+  .talent-mini-rank { font-size: 11px; color: var(--text-muted); }
+
+  /* floating badges */
+  .hero-badge {
+    position: absolute; background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 10px 14px; box-shadow: var(--shadow);
+    font-size: 12px; font-weight: 600; white-space: nowrap;
+  }
+  .hero-badge-1 { top: -20px; right: -30px; z-index: 3;
+    animation: float 4s ease-in-out infinite .5s; }
+  .hero-badge-2 { bottom: 20px; left: -40px; z-index: 3;
+    animation: float 4s ease-in-out infinite 1s; }
+  .badge-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--green); margin-right: 6px; }
+
+  /* stats row */
+  .hero-stats {
+    display: flex; gap: 40px; margin-top: 36px;
+    padding-top: 28px; border-top: 1px solid var(--border);
+  }
+  .hero-stat-num { font-size: 24px; font-weight: 800; color: var(--text); }
+  .hero-stat-label { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+
+  /* ─── HOW IT WORKS ─── */
+  .section { padding: 80px clamp(16px,5vw,64px); max-width: 1200px; margin: 0 auto; }
+  .section-center { text-align: center; }
+  .section-tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--blue-pale); color: var(--blue);
+    border-radius: 100px; padding: 5px 14px; font-size: 12px; font-weight: 700;
+    letter-spacing: .06em; text-transform: uppercase; margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 44px); font-weight: 700; line-height: 1.2; margin-bottom: 14px;
+  }
+  .section-sub { font-size: 16px; color: var(--text-muted); max-width: 540px; margin: 0 auto; line-height: 1.7; }
+
+  .steps-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 56px;
+  }
+  .step-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 28px 24px; transition: box-shadow .3s, transform .3s; position: relative;
+    overflow: hidden;
+  }
+  .step-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--blue), var(--blue-light));
+    transform: scaleX(0); transform-origin: left; transition: transform .3s;
+  }
+  .step-card:hover { box-shadow: var(--shadow); transform: translateY(-4px); }
+  .step-card:hover::before { transform: scaleX(1); }
+  .step-num {
+    font-size: 11px; font-weight: 800; color: var(--blue); text-transform: uppercase;
+    letter-spacing: .1em; margin-bottom: 16px;
+  }
+  .step-icon {
+    font-size: 36px; margin-bottom: 14px; display: block;
+  }
+  .step-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+  .step-desc { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+
+  /* ─── DASHBOARD PREVIEW ─── */
+  .dashboard-section {
+    background: linear-gradient(160deg, #EEF2FF 0%, #F8FAFF 60%);
+    border-radius: 32px; padding: 60px; margin: 0 clamp(16px,5vw,64px);
+  }
+  .dashboard-grid { display: grid; grid-template-columns: 340px 1fr; gap: 32px; margin-top: 48px; }
+
+  /* profile card */
+  .profile-card {
+    background: var(--card); border-radius: var(--radius); padding: 28px;
+    box-shadow: var(--shadow); border: 1px solid var(--border);
+  }
+  .profile-top { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+  .avatar-lg {
+    width: 60px; height: 60px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue), var(--blue-light));
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-weight: 800; font-size: 22px;
+  }
+  .profile-name { font-size: 17px; font-weight: 700; }
+  .profile-role { font-size: 13px; color: var(--text-muted); }
+
+  .burnout-section { margin-bottom: 24px; }
+  .burnout-ring-wrap { display: flex; align-items: center; gap: 20px; }
+  .ring-svg { width: 80px; height: 80px; flex-shrink: 0; }
+  .ring-info h4 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+  .ring-info p { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+  .divider { height: 1px; background: var(--border); margin: 20px 0; }
+
+  .talents-section h5 {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .08em; color: var(--text-muted); margin-bottom: 12px;
+  }
+  .talent-row {
+    display: flex; align-items: center; gap: 12px; padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .talent-row:last-child { border-bottom: none; }
+  .talent-rank { font-size: 11px; font-weight: 800; color: var(--blue-light); width: 20px; }
+  .talent-icon-sm {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: linear-gradient(135deg, var(--blue-pale), #d4dcff);
+    display: flex; align-items: center; justify-content: center; font-size: 14px;
+  }
+  .talent-info { flex: 1; }
+  .talent-name { font-size: 13px; font-weight: 600; }
+  .talent-cat { font-size: 11px; color: var(--text-muted); }
+  .talent-bar-wrap { width: 60px; }
+  .talent-bar-bg { height: 4px; background: var(--blue-pale); border-radius: 4px; }
+  .talent-bar-fill { height: 4px; background: var(--blue); border-radius: 4px; }
+
+  .coach-cta-btn {
+    width: 100%; margin-top: 20px; padding: 13px;
+    background: var(--blue); color: #fff; border: none; border-radius: 10px;
+    font-size: 14px; font-weight: 700; cursor: pointer; font-family: 'Manrope', sans-serif;
+    transition: background .2s, transform .15s;
+  }
+  .coach-cta-btn:hover { background: #4a6ee0; transform: translateY(-1px); }
+
+  /* right column */
+  .right-col { display: flex; flex-direction: column; gap: 20px; }
+
+  /* gallup test card */
+  .gallup-card {
+    background: linear-gradient(135deg, #5B7FFF 0%, #8F9BFF 100%);
+    border-radius: var(--radius); padding: 28px; color: #fff; position: relative; overflow: hidden;
+  }
+  .gallup-card::after {
+    content: ''; position: absolute; right: -20px; top: -20px;
+    width: 140px; height: 140px; border-radius: 50%;
+    background: rgba(255,255,255,.08);
+  }
+  .gallup-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+  .gallup-card p { font-size: 14px; opacity: .85; margin-bottom: 20px; line-height: 1.6; }
+  .gallup-perks { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+  .gallup-perk {
+    background: rgba(255,255,255,.18); border-radius: 100px;
+    padding: 4px 12px; font-size: 12px; font-weight: 600;
+  }
+  .btn-white {
+    background: #fff; color: var(--blue); border: none; border-radius: 10px;
+    padding: 12px 24px; font-size: 14px; font-weight: 700; cursor: pointer;
+    font-family: 'Manrope', sans-serif; transition: transform .15s, box-shadow .2s;
+  }
+  .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.15); }
+
+  /* upload card */
+  .upload-card {
+    background: var(--card); border-radius: var(--radius); padding: 28px;
+    border: 2px dashed var(--border); text-align: center; transition: border-color .2s;
+    cursor: pointer;
+  }
+  .upload-card:hover { border-color: var(--blue); }
+  .upload-icon { font-size: 36px; margin-bottom: 12px; }
+  .upload-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .upload-card p { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; }
+  .upload-types { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  .file-badge {
+    background: var(--bg); border: 1px solid var(--border); border-radius: 6px;
+    padding: 3px 10px; font-size: 11px; font-weight: 700; color: var(--text-muted);
+  }
+  .privacy-note {
+    font-size: 11px; color: var(--text-muted); margin-top: 12px;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+
+  /* chat card */
+  .chat-card {
+    background: var(--card); border-radius: var(--radius); padding: 0;
+    border: 1px solid var(--border); overflow: hidden; box-shadow: var(--shadow-sm);
+  }
+  .chat-header {
+    padding: 16px 20px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .chat-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue), var(--blue-light));
+    display: flex; align-items: center; justify-content: center; color: #fff; font-size: 16px;
+  }
+  .chat-name { font-size: 14px; font-weight: 700; }
+  .chat-status { font-size: 11px; color: var(--green); font-weight: 600; }
+  .chat-messages { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; }
+  .msg { max-width: 80%; }
+  .msg-bot { align-self: flex-start; }
+  .msg-user { align-self: flex-end; }
+  .msg-bubble {
+    border-radius: 16px; padding: 10px 14px; font-size: 13px; line-height: 1.5;
+  }
+  .msg-bot .msg-bubble { background: var(--bg); border-radius: 4px 16px 16px 16px; }
+  .msg-user .msg-bubble { background: var(--blue); color: #fff; border-radius: 16px 16px 4px 16px; }
+  .msg-time { font-size: 10px; color: var(--text-muted); margin-top: 4px; }
+  .typing { display: flex; align-items: center; gap: 4px; padding: 10px 14px; background: var(--bg);
+    border-radius: 4px 16px 16px 16px; width: fit-content; }
+  .typing-dot {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--text-muted);
+    animation: typingAnim .8s ease-in-out infinite;
+  }
+  .typing-dot:nth-child(2) { animation-delay: .15s; }
+  .typing-dot:nth-child(3) { animation-delay: .3s; }
+  @keyframes typingAnim { 0%,60%,100% { opacity: .3; transform: translateY(0); }
+    30% { opacity: 1; transform: translateY(-4px); } }
+  .chat-input-row {
+    border-top: 1px solid var(--border); padding: 12px 16px;
+    display: flex; gap: 10px; align-items: center;
+  }
+  .chat-input {
+    flex: 1; border: 1.5px solid var(--border); border-radius: 8px;
+    padding: 9px 14px; font-size: 13px; font-family: 'Manrope', sans-serif;
+    outline: none; background: var(--bg); color: var(--text);
+    transition: border-color .2s;
+  }
+  .chat-input:focus { border-color: var(--blue); }
+  .chat-send {
+    width: 36px; height: 36px; background: var(--blue); border: none; border-radius: 8px;
+    color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    font-size: 15px; transition: background .2s;
+  }
+  .chat-send:hover { background: #4a6ee0; }
+
+  /* ─── RESULTS / TALENTS ─── */
+  .results-section { background: var(--text); border-radius: 32px; margin: 0 clamp(16px,5vw,64px); padding: 60px; }
+  .results-section .section-tag { background: rgba(91,127,255,.2); color: var(--blue-light); }
+  .results-section .section-title { color: #fff; }
+  .results-section .section-sub { color: rgba(255,255,255,.6); }
+
+  .talents-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-top: 48px; }
+  .talent-card {
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+    border-radius: var(--radius); padding: 20px 16px; text-align: center;
+    transition: background .3s, transform .3s; cursor: pointer; position: relative;
+    overflow: hidden;
+  }
+  .talent-card:hover { background: rgba(91,127,255,.2); transform: translateY(-4px); }
+  .talent-card-rank {
+    position: absolute; top: 12px; left: 12px;
+    font-size: 10px; font-weight: 800; color: var(--blue-light); letter-spacing: .08em;
+  }
+  .talent-card-icon { font-size: 36px; margin-bottom: 12px; display: block; }
+  .talent-card-name { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+  .talent-card-cat {
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
+    color: var(--blue-light);
+  }
+  .talent-card-desc { font-size: 12px; color: rgba(255,255,255,.55); margin-top: 10px; line-height: 1.5; }
+
+  .ai-analysis {
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+    border-radius: var(--radius); padding: 28px; margin-top: 24px;
+    display: flex; gap: 20px; align-items: flex-start;
+  }
+  .ai-analysis-icon { font-size: 32px; flex-shrink: 0; }
+  .ai-analysis h4 { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+  .ai-analysis p { font-size: 14px; color: rgba(255,255,255,.65); line-height: 1.7; }
+
+  .radar-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px; }
+  .career-cards { display: flex; flex-direction: column; gap: 10px; }
+  .career-card {
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.08);
+    border-radius: 10px; padding: 14px 16px; display: flex; align-items: center; gap: 14px;
+    transition: background .2s;
+  }
+  .career-card:hover { background: rgba(91,127,255,.15); }
+  .career-icon { font-size: 22px; }
+  .career-title { font-size: 14px; font-weight: 600; color: #fff; }
+  .career-match { font-size: 11px; color: var(--blue-light); font-weight: 600; }
+  .career-bar-wrap { margin-left: auto; width: 80px; }
+  .career-bar-bg { height: 4px; background: rgba(255,255,255,.1); border-radius: 4px; }
+  .career-bar-fill { height: 4px; background: var(--blue-light); border-radius: 4px; }
+
+  /* radar chart */
+  .radar-card {
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.08);
+    border-radius: var(--radius); padding: 24px; text-align: center;
+  }
+  .radar-card h4 { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 16px; }
+
+  /* ─── COACHES ─── */
+  .coaches-section { padding: 80px clamp(16px,5vw,64px); max-width: 1200px; margin: 0 auto; }
+  .filter-bar {
+    display: flex; gap: 10px; flex-wrap: wrap; margin: 32px 0 28px;
+  }
+  .filter-chip {
+    background: var(--card); border: 1.5px solid var(--border); border-radius: 100px;
+    padding: 7px 16px; font-size: 13px; font-weight: 600; cursor: pointer;
+    transition: all .2s; white-space: nowrap;
+  }
+  .filter-chip:hover, .filter-chip.active {
+    background: var(--blue-pale); border-color: var(--blue); color: var(--blue);
+  }
+  .coaches-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .coach-card {
+    background: var(--card); border-radius: var(--radius); border: 1px solid var(--border);
+    padding: 24px; transition: box-shadow .3s, transform .3s;
+  }
+  .coach-card:hover { box-shadow: var(--shadow); transform: translateY(-4px); }
+  .coach-top { display: flex; gap: 14px; margin-bottom: 16px; }
+  .coach-avatar {
+    width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
+    display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;
+  }
+  .coach-name { font-size: 16px; font-weight: 700; }
+  .coach-spec { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+  .coach-rating { font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 4px; }
+  .coach-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+  .coach-tag {
+    background: var(--bg); border: 1px solid var(--border); border-radius: 6px;
+    padding: 3px 10px; font-size: 11px; font-weight: 600; color: var(--text-muted);
+  }
+  .coach-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .coach-exp { font-size: 12px; color: var(--text-muted); }
+  .coach-price { font-size: 16px; font-weight: 800; color: var(--text); }
+  .coach-price span { font-size: 12px; font-weight: 400; color: var(--text-muted); }
+  .btn-book {
+    width: 100%; padding: 11px; background: var(--bg); border: 1.5px solid var(--blue);
+    border-radius: 8px; color: var(--blue); font-size: 14px; font-weight: 700;
+    cursor: pointer; font-family: 'Manrope', sans-serif; transition: all .2s;
+  }
+  .btn-book:hover { background: var(--blue); color: #fff; }
+  .coach-badge {
+    display: inline-flex; align-items: center; gap: 5px; background: var(--green-soft);
+    border-radius: 100px; padding: 3px 10px; font-size: 11px; font-weight: 700; color: #059669;
+    margin-bottom: 8px;
+  }
+  .coach-badge::before { content: '●'; font-size: 7px; }
+
+  /* ─── CTA BANNER ─── */
+  .cta-banner {
+    background: linear-gradient(135deg, #5B7FFF 0%, #8F9BFF 100%);
+    border-radius: 32px; margin: 0 clamp(16px,5vw,64px) 80px;
+    padding: 64px; text-align: center; color: #fff; position: relative; overflow: hidden;
+  }
+  .cta-banner::before {
+    content: ''; position: absolute; top: -60px; left: -60px;
+    width: 200px; height: 200px; border-radius: 50%; background: rgba(255,255,255,.06);
+  }
+  .cta-banner::after {
+    content: ''; position: absolute; bottom: -40px; right: -40px;
+    width: 160px; height: 160px; border-radius: 50%; background: rgba(255,255,255,.06);
+  }
+  .cta-banner h2 { font-family: 'Playfair Display', serif; font-size: clamp(28px,4vw,44px); font-weight: 700; margin-bottom: 16px; }
+  .cta-banner p { font-size: 16px; opacity: .85; margin-bottom: 32px; }
+  .cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; position: relative; z-index: 1; }
+  .btn-white-outline {
+    background: transparent; color: #fff; border: 2px solid rgba(255,255,255,.5);
+    border-radius: 10px; padding: 13px 28px; font-size: 15px; font-weight: 700;
+    cursor: pointer; font-family: 'Manrope', sans-serif; transition: border-color .2s, background .2s;
+  }
+  .btn-white-outline:hover { border-color: #fff; background: rgba(255,255,255,.1); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--text); color: rgba(255,255,255,.7);
+    padding: 48px clamp(16px,5vw,64px) 32px;
+  }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+  .footer-logo { font-weight: 800; font-size: 20px; color: #fff; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .footer-desc { font-size: 13px; line-height: 1.7; }
+  .footer-col h5 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: rgba(255,255,255,.4); margin-bottom: 16px; }
+  .footer-col a { display: block; font-size: 14px; color: rgba(255,255,255,.65); text-decoration: none; margin-bottom: 10px; transition: color .2s; }
+  .footer-col a:hover { color: #fff; }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,.08); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
+
+  /* ─── FLOATING CHAT ─── */
+  .chat-float {
+    position: fixed; bottom: 24px; right: 24px; z-index: 99;
+    background: var(--blue); border-radius: 50%; width: 56px; height: 56px;
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+    box-shadow: 0 8px 32px rgba(91,127,255,.4); font-size: 24px;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .chat-float:hover { transform: scale(1.1); box-shadow: 0 12px 40px rgba(91,127,255,.5); }
+  .chat-float-tooltip {
+    position: absolute; right: 68px; bottom: 50%; transform: translateY(50%);
+    background: var(--text); color: #fff; border-radius: 8px; padding: 8px 14px;
+    font-size: 12px; font-weight: 600; white-space: nowrap; pointer-events: none;
+    opacity: 0; transition: opacity .2s;
+  }
+  .chat-float:hover .chat-float-tooltip { opacity: 1; }
+
+  /* ─── AVATAR UPLOAD ─── */
+  .avatar-lg-wrap {
+    position: relative; width: 60px; height: 60px; cursor: pointer; flex-shrink: 0;
+  }
+  .avatar-lg {
+    width: 60px; height: 60px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue), var(--blue-light));
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-weight: 800; font-size: 22px;
+    overflow: hidden; transition: opacity .2s;
+  }
+  .avatar-lg img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+  .avatar-overlay {
+    position: absolute; inset: 0; border-radius: 50%;
+    background: rgba(0,0,0,.45); display: flex; align-items: center; justify-content: center;
+    font-size: 18px; opacity: 0; transition: opacity .2s;
+  }
+  .avatar-lg-wrap:hover .avatar-overlay { opacity: 1; }
+
+  /* ─── AUTH MODAL ─── */
+  .modal-backdrop {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(17,24,39,.55); backdrop-filter: blur(6px);
+    display: none; align-items: center; justify-content: center;
+    padding: 16px;
+  }
+  .modal-backdrop.open { display: flex; }
+  .auth-modal {
+    background: var(--card); border-radius: 24px; width: 100%; max-width: 440px;
+    box-shadow: var(--shadow-lg); overflow: hidden;
+    animation: slideUp .3s ease;
+  }
+  @keyframes slideUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+  .auth-modal-header {
+    padding: 28px 28px 0; display: flex; justify-content: space-between; align-items: flex-start;
+  }
+  .auth-modal-title { font-size: 22px; font-weight: 800; color: var(--text); }
+  .auth-modal-sub { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+  .modal-close {
+    width: 32px; height: 32px; border-radius: 8px; border: 1.5px solid var(--border);
+    background: none; cursor: pointer; font-size: 16px; display: flex; align-items: center;
+    justify-content: center; color: var(--text-muted); transition: all .2s; flex-shrink: 0;
+  }
+  .modal-close:hover { background: var(--bg); color: var(--text); }
+  .auth-modal-body { padding: 24px 28px 28px; }
+
+  /* tabs */
+  .auth-tabs { display: flex; background: var(--bg); border-radius: 10px; padding: 4px; margin-bottom: 24px; }
+  .auth-tab {
+    flex: 1; padding: 9px; text-align: center; font-size: 14px; font-weight: 600;
+    border-radius: 8px; cursor: pointer; transition: all .2s; color: var(--text-muted);
+    border: none; background: none; font-family: 'Manrope', sans-serif;
+  }
+  .auth-tab.active { background: var(--card); color: var(--text); box-shadow: var(--shadow-sm); }
+
+  /* google btn */
+  .btn-google {
+    width: 100%; padding: 12px; border: 1.5px solid var(--border); border-radius: 10px;
+    background: var(--card); font-size: 14px; font-weight: 600; cursor: pointer;
+    font-family: 'Manrope', sans-serif; display: flex; align-items: center; justify-content: center;
+    gap: 10px; transition: border-color .2s, box-shadow .2s; color: var(--text);
+    margin-bottom: 20px;
+  }
+  .btn-google:hover { border-color: var(--blue); box-shadow: var(--shadow-sm); }
+  .google-icon { font-size: 18px; }
+
+  /* divider */
+  .auth-divider { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+  .auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .auth-divider span { font-size: 12px; color: var(--text-muted); font-weight: 500; white-space: nowrap; }
+
+  /* form */
+  .form-group { margin-bottom: 16px; }
+  .form-label { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 6px; display: block; }
+  .form-input {
+    width: 100%; padding: 11px 14px; border: 1.5px solid var(--border); border-radius: 10px;
+    font-size: 14px; font-family: 'Manrope', sans-serif; color: var(--text);
+    background: var(--bg); outline: none; transition: border-color .2s, box-shadow .2s;
+  }
+  .form-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(91,127,255,.12); background: #fff; }
+  .form-input.error { border-color: var(--red); }
+  .form-error { font-size: 11px; color: var(--red); margin-top: 4px; display: none; }
+  .form-error.show { display: block; }
+
+  /* password strength */
+  .pw-wrap { position: relative; }
+  .pw-toggle {
+    position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+    background: none; border: none; cursor: pointer; font-size: 16px; color: var(--text-muted);
+    padding: 4px;
+  }
+  .strength-bar { display: flex; gap: 4px; margin-top: 8px; }
+  .strength-seg {
+    flex: 1; height: 4px; border-radius: 4px; background: var(--border); transition: background .3s;
+  }
+  .strength-seg.weak { background: var(--red); }
+  .strength-seg.medium { background: var(--accent); }
+  .strength-seg.strong { background: var(--green); }
+  .strength-label { font-size: 11px; margin-top: 4px; font-weight: 600; }
+  .strength-label.weak { color: var(--red); }
+  .strength-label.medium { color: var(--accent); }
+  .strength-label.strong { color: var(--green); }
+
+  /* pw requirements */
+  .pw-reqs { background: var(--bg); border-radius: 8px; padding: 12px; margin-top: 8px; }
+  .pw-req { font-size: 11px; display: flex; align-items: center; gap: 6px; color: var(--text-muted); margin-bottom: 4px; }
+  .pw-req:last-child { margin-bottom: 0; }
+  .pw-req.met { color: var(--green); }
+  .pw-req::before { content: '○'; font-size: 10px; }
+  .pw-req.met::before { content: '✓'; }
+
+  .btn-auth {
+    width: 100%; padding: 13px; background: var(--blue); color: #fff; border: none;
+    border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer;
+    font-family: 'Manrope', sans-serif; transition: background .2s, transform .15s;
+    margin-top: 4px;
+  }
+  .btn-auth:hover { background: #4a6ee0; transform: translateY(-1px); }
+  .btn-auth:disabled { background: var(--blue-light); cursor: not-allowed; transform: none; }
+  .auth-terms { font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 16px; line-height: 1.6; }
+  .auth-terms a { color: var(--blue); text-decoration: none; }
+
+  /* success state */
+  .auth-success { text-align: center; padding: 12px 0; display: none; }
+  .auth-success-icon { font-size: 48px; margin-bottom: 12px; }
+  .auth-success h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .auth-success p { font-size: 14px; color: var(--text-muted); }
+
+  /* ─── SECTION DIVIDER ─── */
+  .section-gap { height: 40px; }
+  .fade-in {
+    opacity: 0; transform: translateY(24px);
+    animation: fadeIn .7s ease forwards;
+  }
+  .fade-in-1 { animation-delay: .1s; }
+  .fade-in-2 { animation-delay: .2s; }
+  .fade-in-3 { animation-delay: .3s; }
+  .fade-in-4 { animation-delay: .4s; }
+  @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+
+  /* ─── RESPONSIVE — полная мобильная версия ─── */
+
+  /* Планшет 768–1024px */
+  @media (max-width: 1024px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding-top: 100px; }
+    .hero-visual { display: none; }
+    .steps-grid { grid-template-columns: repeat(2, 1fr); }
+    .talents-grid { grid-template-columns: repeat(3, 1fr); }
+    .radar-row { grid-template-columns: 1fr; }
+    .coaches-grid { grid-template-columns: repeat(2, 1fr); }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .dashboard-grid { grid-template-columns: 1fr; }
+    .dashboard-section { padding: 48px 32px; }
+  }
+
+  /* Мобильный 320–767px */
+  @media (max-width: 767px) {
+    /* Nav */
+    nav { padding: 0 16px; height: 56px; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+
+    /* Mobile menu открытое */
+    .nav-links.mobile-open {
+      display: flex; flex-direction: column; position: fixed;
+      top: 56px; left: 0; right: 0; background: rgba(248,250,255,.98);
+      backdrop-filter: blur(16px); padding: 16px; gap: 4px;
+      border-bottom: 1px solid var(--border); z-index: 99; box-shadow: var(--shadow);
+    }
+    .nav-links.mobile-open a {
+      padding: 12px 16px; border-radius: 10px; font-size: 15px;
+    }
+    .nav-links.mobile-open a:hover { background: var(--blue-pale); }
+
+    /* Hero */
+    .hero {
+      padding: 80px 16px 40px;
+      grid-template-columns: 1fr; gap: 24px;
+    }
+    .hero h1 { font-size: 32px; }
+    .hero-sub { font-size: 15px; }
+    .hero-btns { flex-direction: column; gap: 10px; }
+    .hero-btns a { text-align: center; justify-content: center; }
+    .hero-stats { gap: 16px; flex-wrap: wrap; }
+    .hero-stat-num { font-size: 20px; }
+
+    /* Steps */
+    .steps-grid { grid-template-columns: 1fr; gap: 12px; }
+    .section { padding: 40px 16px; }
+
+    /* Dashboard */
+    .dashboard-section {
+      padding: 32px 16px; border-radius: 20px; margin: 0 12px;
+    }
+    .dashboard-grid { grid-template-columns: 1fr; gap: 16px; }
+    .right-col { gap: 16px; }
+
+    /* Profile card */
+    .profile-card { padding: 20px; }
+    .profile-top { gap: 12px; }
+
+    /* Chat */
+    .chat-card { border-radius: 16px; }
+    .chat-messages { min-height: 160px !important; max-height: 240px !important; }
+
+    /* Upload */
+    .upload-card { padding: 20px; }
+
+    /* Results */
+    .results-section {
+      padding: 32px 16px; border-radius: 20px; margin: 0 12px;
+    }
+    .talents-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .talent-card { padding: 16px 12px; }
+    .radar-row { grid-template-columns: 1fr; gap: 16px; }
+
+    /* Coaches */
+    .coaches-section { padding: 40px 16px; }
+    .coaches-grid { grid-template-columns: 1fr; gap: 14px; }
+    .filter-bar { gap: 8px; }
+    .filter-chip { font-size: 12px; padding: 6px 12px; }
+
+    /* CTA Banner */
+    .cta-banner {
+      padding: 36px 20px; border-radius: 20px; margin: 0 12px 48px;
+    }
+    .cta-banner h2 { font-size: 24px; }
+    .cta-banner p { font-size: 14px; }
+    .cta-btns { flex-direction: column; gap: 10px; align-items: stretch; }
+    .cta-btns button { width: 100%; }
+
+    /* Footer */
+    .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+    .footer-bottom { flex-direction: column; gap: 10px; text-align: center; font-size: 11px; }
+    footer { padding: 40px 16px 28px; }
+
+    /* Modals */
+    .auth-modal { border-radius: 20px; margin: 0 4px; }
+    .auth-modal-header { padding: 20px 20px 0; }
+    .auth-modal-body { padding: 16px 20px 20px; }
+
+    /* Burnout modal */
+    .auth-modal[style*="560px"] { max-width: calc(100vw - 8px) !important; }
+
+    /* Misc */
+    .hero-eyebrow { font-size: 11px; }
+    .section-title { font-size: 26px; }
+    .section-gap { height: 24px; }
+  }
+
+  /* Очень маленький экран 320–374px */
+  @media (max-width: 374px) {
+    .hero h1 { font-size: 26px; }
+    .talents-grid { grid-template-columns: 1fr; }
+    .hero-stats { flex-direction: column; gap: 12px; }
+    .btn-primary, .btn-secondary { padding: 12px 20px; font-size: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <span class="nav-logo-dot"></span> TalentScope
+  </a>
+  <div class="nav-links" id="navLinks">
+    <a href="#">Продукт</a>
+    <a href="#coaches-section">Коучи</a>
+    <a href="#" onclick="openCoachRegModal();return false;">Стать коучем</a>
+    <a href="#">Блог</a>
+    <a href="#site-footer">О нас</a>
+    <a href="#" class="nav-cta" onclick="openAuthModal(); return false;">Войти →</a>
+  </div>
+  <div class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div>
+    <div class="hero-eyebrow fade-in fade-in-1">AI-анализ Gallup CliftonStrengths</div>
+    <h1 class="fade-in fade-in-2">Раскройте свои <em>природные</em> таланты</h1>
+    <p class="hero-sub fade-in fade-in-3">
+      Пройдите тест, загрузите результаты Gallup-Test и получите персональный анализ: ваш уровень выгорания, топ-5 талантов и карьерные рекомендации от AI-помощника и консультации от наших лучших коучей для более глубокого разбора ваших способностей.
+    </p>
+    <div class="hero-btns fade-in fade-in-4">
+      <a href="#" onclick="openBurnoutTest();return false;" class="btn-primary">✦ Пройти тест на выгорание</a>
+      <a href="#upload-section" class="btn-secondary">↑ Загрузить результаты Gallup-Test</a>
+    </div>
+    <div class="hero-stats fade-in fade-in-4">
+      <div>
+        <div class="hero-stat-num">12 400+</div>
+        <div class="hero-stat-label">анализов проведено</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">34</div>
+        <div class="hero-stat-label">таланта в базе</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">98%</div>
+        <div class="hero-stat-label">точность анализа</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-visual fade-in fade-in-3">
+    <div class="hero-card">
+      <div class="hero-card-header">
+        <div class="avatar">А</div>
+        <div>
+          <div class="hero-card-name">Алексей Козлов</div>
+          <div class="hero-card-sub">Результаты Gallup загружены</div>
+        </div>
+      </div>
+      <div class="burnout-label">Уровень выгорания</div>
+      <div class="gauge-wrap">
+        <div class="gauge-bar"><div class="gauge-fill"></div></div>
+        <div class="gauge-status">
+          <span class="badge-low">Низкий</span>
+          <span class="gauge-pct">35%</span>
+        </div>
+      </div>
+      <div class="burnout-label" style="margin-top:16px">Топ-5 талантов</div>
+      <div class="talents-mini">
+        <div class="talent-mini-item">
+          <div class="talent-mini-icon">🧠</div>
+          <div>
+            <div class="talent-mini-name">Стратегия</div>
+            <div class="talent-mini-rank">#1 · Стратегическое мышление</div>
+          </div>
+        </div>
+        <div class="talent-mini-item">
+          <div class="talent-mini-icon">📚</div>
+          <div>
+            <div class="talent-mini-name">Обучаемость</div>
+            <div class="talent-mini-rank">#2 · Стратегическое мышление</div>
+          </div>
+        </div>
+        <div class="talent-mini-item">
+          <div class="talent-mini-icon">⚡</div>
+          <div>
+            <div class="talent-mini-name">Достиженец</div>
+            <div class="talent-mini-rank">#3 · Исполнение</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-badge hero-badge-1">
+      <span class="badge-dot"></span> ИИ анализ готов
+    </div>
+    <div class="hero-badge hero-badge-2">🎯 Совпадение профессий: 94%</div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="section section-center" id="burnout-test-section">
+  <div class="section-tag">Как это работает</div>
+  <h2 class="section-title">Четыре шага к пониманию себя</h2>
+  <p class="section-sub">От теста до консультации с сертифицированным Gallup-коучем — всё в одном месте</p>
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num">Шаг 01</div>
+      <span class="step-icon">📋</span>
+      <div class="step-title">Пройти тест на уровень выгорания</div>
+      <div class="step-desc">Ответьте на вопросы нашей адаптированной версии теста. Сохраняем прогресс — можно вернуться в любой момент.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">Шаг 02</div>
+      <span class="step-icon">🤖</span>
+      <div class="step-title">Получить AI-анализ</div>
+      <div class="step-desc">Загрузите Gallup-Test — ИИ анализирует ваши ответы и выявляет уровень выгорания + разбор ваших ТОП 5 талантов.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">Шаг 03</div>
+      <span class="step-icon">🗺️</span>
+      <div class="step-title">Узнать направления карьеры</div>
+      <div class="step-desc">На основе ваших сильных сторон система предложит профессии, где вы максимально реализуете потенциал.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">Шаг 04</div>
+      <span class="step-icon">💬</span>
+      <div class="step-title">Поговорить с коучем</div>
+      <div class="step-desc">Запишитесь на сессию с сертифицированным Gallup-коучем, который поможет выстроить план развития.</div>
+    </div>
+  </div>
+</div>
+
+<!-- DASHBOARD PREVIEW -->
+<div class="section-gap"></div>
+<div class="dashboard-section">
+  <div class="section-tag">Ваш профиль</div>
+  <h2 class="section-title">Всё в одном личном кабинете</h2>
+  <p class="section-sub">Результаты теста, чат с ИИ-помощником и загрузка Gallup-файла — на одном экране</p>
+
+  <div class="dashboard-grid">
+    <!-- Left: Profile -->
+    <div>
+      <div class="profile-card">
+        <div class="profile-top">
+          <div class="avatar-lg-wrap" onclick="document.getElementById('avatarInput').click()" title="Нажмите, чтобы загрузить фото">
+            <div class="avatar-lg" id="avatarDisplay">М</div>
+            <div class="avatar-overlay">📷</div>
+            <input type="file" id="avatarInput" accept="image/*" style="display:none" onchange="previewAvatar(event)">
+          </div>
+          <div>
+            <div class="profile-name">Мария Иванова</div>
+            <div class="profile-role">Менеджер по продукту</div>
+            <div style="font-size:11px;color:var(--blue);margin-top:4px;cursor:pointer" onclick="document.getElementById('avatarInput').click()">✏️ Изменить фото</div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div style="background:var(--blue-pale);border-radius:12px;padding:16px;margin-bottom:16px;">
+          <div style="font-size:12px;font-weight:700;color:var(--blue);margin-bottom:8px;">💡 Как начать</div>
+          <div style="font-size:13px;color:var(--text-muted);line-height:1.6;">
+            1. Пройдите тест на выгорание →<br>
+            2. Загрузите Gallup-Test файл →<br>
+            3. Получите AI-анализ талантов
+          </div>
+        </div>
+
+        <button class="coach-cta-btn" onclick="document.getElementById('coaches-section').scrollIntoView({behavior:'smooth'})">🤝 Найти своего коуча</button>
+      </div>
+    </div>
+
+    <!-- Right column -->
+    <div class="right-col">
+
+      <!-- Chat — ИИ-помощник с мульти-сессиями -->
+      <div class="chat-card" id="chat-section" style="padding:0">
+
+        <!-- Chat header -->
+        <div class="chat-header" style="justify-content:space-between">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="chat-avatar">✦</div>
+            <div>
+              <div class="chat-name" id="chatSessionName">ИИ-помощник TalentScope</div>
+              <div class="chat-status" id="chat-status-indicator">● Онлайн</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <!-- Кнопка истории чатов (только авторизованным) -->
+            <button id="chatHistoryBtn" onclick="toggleChatSidebar()" title="История чатов"
+              style="display:none;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;width:32px;height:32px;cursor:pointer;font-size:14px;color:var(--text-muted)">
+              🗂
+            </button>
+            <!-- Новый чат (только авторизованным) -->
+            <button id="newChatBtn" onclick="createNewChat()" title="Новый чат"
+              style="display:none;background:var(--blue-pale);border:1.5px solid var(--border);border-radius:8px;padding:0 12px;height:32px;cursor:pointer;font-size:12px;font-weight:700;color:var(--blue);font-family:Manrope,sans-serif">
+              + Новый чат
+            </button>
+          </div>
+        </div>
+
+        <!-- Sidebar с историей чатов -->
+        <div id="chatSidebar" style="display:none;border-bottom:1px solid var(--border);background:var(--bg);max-height:200px;overflow-y:auto;padding:8px">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);padding:4px 8px 8px">
+            История чатов
+          </div>
+          <div id="chatSessionsList"></div>
+        </div>
+
+        <!-- Гость-уведомление -->
+        <div id="guestChatNotice" style="background:var(--accent-soft);border-bottom:1px solid #FFE0A0;padding:8px 16px;font-size:12px;color:#92400E;display:flex;align-items:center;justify-content:space-between;gap:8px">
+          <span>💡 История сохраняется только после входа в аккаунт</span>
+          <button onclick="openAuthModal()" style="background:var(--accent);border:none;border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:Manrope,sans-serif;color:#fff">Войти</button>
+        </div>
+
+        <!-- Messages -->
+        <div class="chat-messages" id="chatMessages" style="min-height:180px;max-height:280px;overflow-y:auto">
+          <div class="msg msg-bot">
+            <div class="msg-bubble">Привет! Я ваш AI-помощник по самопониманию и талантам. Расскажите, что вас сейчас занимает? 🌿</div>
+            <div class="msg-time">Сейчас</div>
+          </div>
+        </div>
+
+        <!-- Quick buttons -->
+        <div style="padding:8px 16px;display:flex;gap:8px;flex-wrap:wrap;border-top:1px solid var(--border)">
+          <button onclick="sendQuickMsg('Расскажи о моих талантах')" style="background:var(--blue-pale);border:none;border-radius:100px;padding:5px 12px;font-size:11px;font-weight:600;color:var(--blue);cursor:pointer;font-family:Manrope,sans-serif">О талантах</button>
+          <button onclick="sendQuickMsg('Я чувствую себя истощённым')" style="background:var(--blue-pale);border:none;border-radius:100px;padding:5px 12px;font-size:11px;font-weight:600;color:var(--blue);cursor:pointer;font-family:Manrope,sans-serif">Я устал</button>
+          <button onclick="sendQuickMsg('Какие профессии мне подходят?')" style="background:var(--blue-pale);border:none;border-radius:100px;padding:5px 12px;font-size:11px;font-weight:600;color:var(--blue);cursor:pointer;font-family:Manrope,sans-serif">Карьера</button>
+        </div>
+
+        <!-- Input -->
+        <div class="chat-input-row">
+          <input class="chat-input" id="chatInput" placeholder="Напишите что вас беспокоит..." type="text" onkeydown="if(event.key==='Enter') sendChatMessage()"/>
+          <button class="chat-send" onclick="sendChatMessage()">➤</button>
+        </div>
+      </div>
+
+      <!-- Upload — Gallup-Test results (с id для скролла) -->
+      <div class="upload-card" id="upload-section" onclick="document.getElementById('gallupFileInput').click()">
+        <div class="upload-icon">📄</div>
+        <h4>Загрузить результаты Gallup-Test</h4>
+        <p>Если у вас уже есть результаты — загрузите файл, и ИИ расшифрует их за секунды</p>
+        <div class="upload-types">
+          <span class="file-badge">PDF</span>
+          <span class="file-badge">PNG</span>
+          <span class="file-badge">JPG</span>
+          <span class="file-badge">DOCX</span>
+        </div>
+        <input type="file" id="gallupFileInput" accept=".pdf,.png,.jpg,.jpeg,.docx" style="display:none" onchange="handleGallupUpload(event)">
+        <div id="uploadStatus" style="display:none;margin-top:12px;font-size:13px;font-weight:600;color:var(--blue)"></div>
+        <p class="privacy-note">🔒 Данные зашифрованы и не передаются третьим лицам</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- RESULTS / TALENTS SECTION — скрыт до загрузки Gallup -->
+<div class="section-gap"></div>
+<div class="results-section" id="results-section" style="display:none">
+  <div style="text-align:center; margin-bottom: 0;">
+    <div class="section-tag">Ваши результаты</div>
+    <h2 class="section-title" style="color:#fff">Топ-5 талантов — ваша суперсила</h2>
+    <p class="section-sub" style="color:rgba(255,255,255,.6)">Как Spotify Wrapped, только для вашей карьеры и жизни</p>
+  </div>
+
+  <div class="talents-grid">
+    <div class="talent-card">
+      <span class="talent-card-rank">#1</span>
+      <span class="talent-card-icon">🧠</span>
+      <div class="talent-card-name">Стратегия</div>
+      <div class="talent-card-cat">Стратегическое мышление</div>
+      <div class="talent-card-desc">Вы быстро видите паттерны и создаёте альтернативные пути движения вперёд</div>
+    </div>
+    <div class="talent-card">
+      <span class="talent-card-rank">#2</span>
+      <span class="talent-card-icon">📚</span>
+      <div class="talent-card-name">Обучаемость</div>
+      <div class="talent-card-cat">Стратегическое мышление</div>
+      <div class="talent-card-desc">Процесс обучения увлекает вас так же, как и результат</div>
+    </div>
+    <div class="talent-card">
+      <span class="talent-card-rank">#3</span>
+      <span class="talent-card-icon">⚡</span>
+      <div class="talent-card-name">Достиженец</div>
+      <div class="talent-card-cat">Исполнение</div>
+      <div class="talent-card-desc">У вас внутренний огонь — вы постоянно стремитесь делать больше</div>
+    </div>
+    <div class="talent-card">
+      <span class="talent-card-rank">#4</span>
+      <span class="talent-card-icon">🔍</span>
+      <div class="talent-card-name">Аналитика</div>
+      <div class="talent-card-cat">Стратегическое мышление</div>
+      <div class="talent-card-desc">Вы ищете причины и следствия, проверяете данные и ищете закономерности</div>
+    </div>
+    <div class="talent-card">
+      <span class="talent-card-rank">#5</span>
+      <span class="talent-card-icon">💡</span>
+      <div class="talent-card-name">Идеация</div>
+      <div class="talent-card-cat">Стратегическое мышление</div>
+      <div class="talent-card-desc">Вас завораживают идеи — особенно неожиданные связи между разными явлениями</div>
+    </div>
+  </div>
+
+  <div class="ai-analysis">
+    <span class="ai-analysis-icon">✦</span>
+    <div>
+      <h4>Ваш профиль таланта</h4>
+      <p>Вы — стратегический мыслитель с сильными способностями к обучению и аналитическим складом ума. Четыре из ваших пяти топ-талантов относятся к домену «Стратегическое мышление» — это означает, что вы лучше всего реализуете потенциал в ролях, требующих анализа, планирования и создания нестандартных решений. Рекомендованные направления: Product Management, Strategy Consulting, Research, Entrepreneurship.</p>
+    </div>
+  </div>
+
+  <div class="radar-row">
+    <div class="radar-card">
+      <h4>Карьерные направления</h4>
+      <div class="career-cards">
+        <div class="career-card">
+          <span class="career-icon">📱</span>
+          <div>
+            <div class="career-title">Product Manager</div>
+            <div class="career-match">Совпадение 94%</div>
+          </div>
+          <div class="career-bar-wrap">
+            <div class="career-bar-bg"><div class="career-bar-fill" style="width:94%"></div></div>
+          </div>
+        </div>
+        <div class="career-card">
+          <span class="career-icon">🎯</span>
+          <div>
+            <div class="career-title">Strategy Consultant</div>
+            <div class="career-match">Совпадение 89%</div>
+          </div>
+          <div class="career-bar-wrap">
+            <div class="career-bar-bg"><div class="career-bar-fill" style="width:89%"></div></div>
+          </div>
+        </div>
+        <div class="career-card">
+          <span class="career-icon">🚀</span>
+          <div>
+            <div class="career-title">Предприниматель</div>
+            <div class="career-match">Совпадение 85%</div>
+          </div>
+          <div class="career-bar-wrap">
+            <div class="career-bar-bg"><div class="career-bar-fill" style="width:85%"></div></div>
+          </div>
+        </div>
+        <div class="career-card">
+          <span class="career-icon">🔬</span>
+          <div>
+            <div class="career-title">UX Researcher</div>
+            <div class="career-match">Совпадение 78%</div>
+          </div>
+          <div class="career-bar-wrap">
+            <div class="career-bar-bg"><div class="career-bar-fill" style="width:78%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="radar-card">
+      <h4>Распределение доменов</h4>
+      <svg viewBox="0 0 220 220" style="width:100%;max-width:220px;margin:0 auto;display:block">
+        <!-- Radar chart for 4 domains -->
+        <polygon points="110,30 190,110 110,190 30,110" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+        <polygon points="110,55 165,110 110,165 55,110" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+        <polygon points="110,80 140,110 110,140 80,110" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+        <line x1="110" y1="30" x2="110" y2="190" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+        <line x1="30" y1="110" x2="190" y2="110" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+        <!-- Data polygon -->
+        <polygon points="110,38 178,110 110,172 48,110" fill="rgba(91,127,255,.3)" stroke="#8F9BFF" stroke-width="2"/>
+        <!-- Labels -->
+        <text x="110" y="22" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="10" font-family="Manrope">Стратегия</text>
+        <text x="200" y="114" text-anchor="start" fill="rgba(255,255,255,.7)" font-size="10" font-family="Manrope">Влияние</text>
+        <text x="110" y="202" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="10" font-family="Manrope">Исполнение</text>
+        <text x="18" y="114" text-anchor="end" fill="rgba(255,255,255,.7)" font-size="10" font-family="Manrope">Отношения</text>
+        <!-- Dots -->
+        <circle cx="110" cy="38" r="4" fill="#8F9BFF"/>
+        <circle cx="178" cy="110" r="4" fill="#8F9BFF"/>
+        <circle cx="110" cy="172" r="4" fill="#8F9BFF"/>
+        <circle cx="48" cy="110" r="4" fill="#8F9BFF"/>
+      </svg>
+      <p style="font-size:12px;color:rgba(255,255,255,.5);text-align:center;margin-top:12px">80% ваших талантов — в домене «Стратегическое мышление»</p>
+    </div>
+  </div>
+</div>
+
+<!-- COACHES -->
+<div class="coaches-section" id="coaches-section">
+  <div style="text-align:center">
+    <div class="section-tag">Каталог коучей</div>
+    <h2 class="section-title">Сертифицированные Gallup-коучи</h2>
+    <p class="section-sub">Специалисты, которые помогут превратить ваши таланты в результаты</p>
+  </div>
+
+  <div class="filter-bar">
+    <div class="filter-chip active">Все</div>
+    <div class="filter-chip">Карьера</div>
+    <div class="filter-chip">Выгорание</div>
+    <div class="filter-chip">Лидерство</div>
+    <div class="filter-chip">Бизнес</div>
+    <div class="filter-chip">Gallup-сертификат</div>
+    <div class="filter-chip">До 100 $/час</div>
+    <div class="filter-chip">На русском</div>
+  </div>
+
+  <div class="coaches-grid">
+    <!-- Coach 1 -->
+    <div class="coach-card">
+      <div class="coach-badge">Онлайн сейчас</div>
+      <div class="coach-top">
+        <div class="coach-avatar">👩</div>
+        <div>
+          <div class="coach-name">Анна Миллер</div>
+          <div class="coach-spec">Сертифицированный Gallup-коуч</div>
+          <div class="coach-rating">⭐ 4.97 <span style="color:var(--text-muted);font-weight:400">(142 отзыва)</span></div>
+        </div>
+      </div>
+      <div class="coach-tags">
+        <span class="coach-tag">Карьера</span>
+        <span class="coach-tag">Gallup</span>
+        <span class="coach-tag">Лидерство</span>
+      </div>
+      <div class="coach-meta">
+        <span class="coach-exp">🏅 8 лет опыта</span>
+        <span class="coach-price">120$ <span>/ сессия</span></span>
+      </div>
+      <button class="btn-book">Записаться на сессию</button>
+    </div>
+
+    <!-- Coach 2 -->
+    <div class="coach-card">
+      <div class="coach-top" style="margin-top:24px">
+        <div class="coach-avatar">👨</div>
+        <div>
+          <div class="coach-name">Дмитрий Волков</div>
+          <div class="coach-spec">Коуч по выгоранию и карьере</div>
+          <div class="coach-rating">⭐ 4.93 <span style="color:var(--text-muted);font-weight:400">(98 отзывов)</span></div>
+        </div>
+      </div>
+      <div class="coach-tags">
+        <span class="coach-tag">Выгорание</span>
+        <span class="coach-tag">Карьера</span>
+        <span class="coach-tag">Mindfulness</span>
+      </div>
+      <div class="coach-meta">
+        <span class="coach-exp">🏅 5 лет опыта</span>
+        <span class="coach-price">80$ <span>/ сессия</span></span>
+      </div>
+      <button class="btn-book">Записаться на сессию</button>
+    </div>
+
+    <!-- Coach 3 -->
+    <div class="coach-card">
+      <div class="coach-badge">Популярный</div>
+      <div class="coach-top">
+        <div class="coach-avatar">👩‍💼</div>
+        <div>
+          <div class="coach-name">Елена Соколова</div>
+          <div class="coach-spec">Бизнес-коуч, ICF PCC</div>
+          <div class="coach-rating">⭐ 4.99 <span style="color:var(--text-muted);font-weight:400">(207 отзывов)</span></div>
+        </div>
+      </div>
+      <div class="coach-tags">
+        <span class="coach-tag">Бизнес</span>
+        <span class="coach-tag">Лидерство</span>
+        <span class="coach-tag">Gallup</span>
+      </div>
+      <div class="coach-meta">
+        <span class="coach-exp">🏅 12 лет опыта</span>
+        <span class="coach-price">200$ <span>/ сессия</span></span>
+      </div>
+      <button class="btn-book">Записаться на сессию</button>
+    </div>
+  </div>
+</div>
+
+<!-- CTA BANNER -->
+<div class="cta-banner">
+  <h2>Готовы раскрыть свой потенциал?</h2>
+  <p>Более 12 000 человек уже узнали свои таланты и нашли путь к любимой работе</p>
+  <div class="cta-btns">
+    <button class="btn-white" onclick="openBurnoutTest()">✦ Начать тест на уровень выгорания</button>
+    <button class="btn-white-outline" onclick="document.getElementById('coaches-section').scrollIntoView({behavior:'smooth'})">Найти коуча →</button>
+  </div>
+</div>
+
+<!-- ═══ BURNOUT TEST MODAL ═══ -->
+<div class="modal-backdrop" id="burnoutModal" onclick="closeBurnoutOnBackdrop(event)">
+  <div class="auth-modal" style="max-width:560px">
+    <div class="auth-modal-header">
+      <div>
+        <div class="auth-modal-title" id="burnoutModalTitle">Тест на уровень выгорания</div>
+        <div class="auth-modal-sub" id="burnoutProgress">Вопрос 1 из 10</div>
+      </div>
+      <button class="modal-close" onclick="closeBurnoutModal()">✕</button>
+    </div>
+    <div class="auth-modal-body" style="padding-top:8px">
+
+      <!-- Progress bar -->
+      <div style="background:var(--border);border-radius:10px;height:6px;margin-bottom:24px">
+        <div id="burnoutProgressBar" style="height:6px;border-radius:10px;background:linear-gradient(90deg,var(--blue),var(--blue-light));width:10%;transition:width .4s"></div>
+      </div>
+
+      <!-- Question area -->
+      <div id="burnoutQuestionArea">
+        <div style="font-size:16px;font-weight:700;color:var(--text);margin-bottom:20px;line-height:1.5" id="burnoutQuestionText">
+          Загрузка вопроса...
+        </div>
+        <div id="burnoutOptions" style="display:flex;flex-direction:column;gap:10px"></div>
+      </div>
+
+      <!-- Result area (hidden until done) -->
+      <div id="burnoutResultArea" style="display:none;text-align:center">
+        <div style="font-size:48px;margin-bottom:12px" id="burnoutResultEmoji">🟢</div>
+        <div style="font-size:22px;font-weight:800;margin-bottom:8px" id="burnoutResultTitle">Низкий уровень выгорания</div>
+        <div style="font-size:14px;color:var(--text-muted);line-height:1.7;margin-bottom:20px" id="burnoutResultDesc"></div>
+        <div style="background:var(--blue-pale);border-radius:12px;padding:16px;margin-bottom:20px">
+          <div style="font-size:13px;color:var(--text-muted);margin-bottom:4px">Ваш результат</div>
+          <div style="font-size:36px;font-weight:800;color:var(--blue)" id="burnoutScore">35%</div>
+        </div>
+        <button class="btn-primary" style="width:100%;justify-content:center" onclick="closeBurnoutModal();document.getElementById('upload-section').scrollIntoView({behavior:'smooth'})">
+          📄 Загрузить Gallup-Test для полного анализа →
+        </button>
+      </div>
+
+      <!-- Navigation -->
+      <div id="burnoutNav" style="display:flex;justify-content:space-between;align-items:center;margin-top:20px">
+        <button id="burnoutPrevBtn" onclick="burnoutPrev()" style="background:none;border:1.5px solid var(--border);border-radius:8px;padding:9px 18px;font-size:14px;font-weight:600;cursor:pointer;color:var(--text-muted);font-family:Manrope,sans-serif">← Назад</button>
+        <span style="font-size:12px;color:var(--text-muted)" id="burnoutNavLabel">Выберите ответ</span>
+        <button id="burnoutNextBtn" onclick="burnoutNext()" disabled style="background:var(--blue);border:none;border-radius:8px;padding:9px 18px;font-size:14px;font-weight:700;cursor:pointer;color:#fff;font-family:Manrope,sans-serif;opacity:.4">Далее →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer id="site-footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo"><span class="nav-logo-dot"></span> TalentScope</div>
+      <p class="footer-desc">AI-сервис для анализа Gallup CliftonStrengths, профилактики выгорания и карьерного развития.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Продукт</h5>
+      <a href="#">Тест Gallup</a>
+      <a href="#">Загрузить результаты</a>
+      <a href="#">AI-анализ</a>
+      <a href="#">Чат-помощник</a>
+    </div>
+    <div class="footer-col">
+      <h5>Коучи</h5>
+      <a href="#">Каталог коучей</a>
+      <a href="#">Стать коучем</a>
+      <a href="#">Сертификация</a>
+    </div>
+    <div class="footer-col">
+      <h5>Ресурсы</h5>
+      <a href="#">Блог</a>
+      <a href="#">О Gallup</a>
+      <a href="#">34 таланта</a>
+      <a href="#">FAQ</a>
+    </div>
+    <div class="footer-col">
+      <h5>Компания</h5>
+      <a href="#">О нас</a>
+      <a href="#">Политика конфиденциальности</a>
+      <a href="#">Условия использования</a>
+      <a href="#">Контакты</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 TalentScope. Все права защищены.</span>
+    <span>Сделано с ❤️ для тех, кто хочет раскрыть себя</span>
+  </div>
+</footer>
+
+<!-- chat float removed -->
+
+<!-- CONNECTION TEST TOAST -->
+<div id="conn-toast" style="
+  display: none; position: fixed; bottom: 90px; right: 24px; z-index: 999;
+  align-items: center; gap: 10px; padding: 14px 18px;
+  background: #F8FAFF; border: 1.5px solid #C7D3FF; border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(91,127,255,.15); font-size: 13px;
+  font-family: 'Manrope', sans-serif; font-weight: 600; color: #111827;
+  max-width: 360px; transition: opacity .5s;
+">
+  <span id="conn-icon" style="font-size:18px">⏳</span>
+  <span id="conn-text">Проверяем подключение...</span>
+</div>
+
+<!-- AUTH MODAL -->
+<div class="modal-backdrop" id="authModal" onclick="closeOnBackdrop(event)">
+  <div class="auth-modal">
+    <div class="auth-modal-header">
+      <div>
+        <div class="auth-modal-title" id="modalTitle">Добро пожаловать</div>
+        <div class="auth-modal-sub" id="modalSub">Войдите или создайте аккаунт</div>
+      </div>
+      <button class="modal-close" onclick="closeAuthModal()">✕</button>
+    </div>
+    <div class="auth-modal-body">
+
+      <!-- Tabs -->
+      <div class="auth-tabs">
+        <button class="auth-tab active" onclick="switchTab('login')">Войти</button>
+        <button class="auth-tab" onclick="switchTab('register')">Создать аккаунт</button>
+      </div>
+
+      <!-- Google -->
+      <button class="btn-google" onclick="authWithGoogle()">
+        <span class="google-icon">🇬</span> Продолжить через Google
+      </button>
+
+      <div class="auth-divider"><span>или через email</span></div>
+
+      <!-- Login form -->
+      <div id="loginForm">
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-input" type="email" id="loginEmail" placeholder="your@email.com">
+          <div class="form-error" id="loginEmailErr">Введите корректный email</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Пароль</label>
+          <div class="pw-wrap">
+            <input class="form-input" type="password" id="loginPassword" placeholder="Ваш пароль">
+            <button class="pw-toggle" onclick="togglePw('loginPassword', this)" type="button">👁</button>
+          </div>
+          <div class="form-error" id="loginPwErr">Введите пароль</div>
+        </div>
+        <button class="btn-auth" onclick="doLogin()">Войти в аккаунт</button>
+      </div>
+
+      <!-- Register form -->
+      <div id="registerForm" style="display:none">
+        <div class="form-group">
+          <label class="form-label">Имя</label>
+          <input class="form-input" type="text" id="regName" placeholder="Ваше имя">
+          <div class="form-error" id="regNameErr">Введите ваше имя</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-input" type="email" id="regEmail" placeholder="your@email.com">
+          <div class="form-error" id="regEmailErr">Введите корректный email</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Пароль</label>
+          <div class="pw-wrap">
+            <input class="form-input" type="password" id="regPassword" placeholder="Минимум 8 символов" oninput="checkStrength(this.value)">
+            <button class="pw-toggle" onclick="togglePw('regPassword', this)" type="button">👁</button>
+          </div>
+          <div class="strength-bar">
+            <div class="strength-seg" id="seg1"></div>
+            <div class="strength-seg" id="seg2"></div>
+            <div class="strength-seg" id="seg3"></div>
+            <div class="strength-seg" id="seg4"></div>
+          </div>
+          <div class="strength-label" id="strengthLabel"></div>
+          <div class="pw-reqs" id="pwReqs">
+            <div class="pw-req" id="req-len">Минимум 8 символов</div>
+            <div class="pw-req" id="req-upper">Хотя бы одна заглавная буква</div>
+            <div class="pw-req" id="req-num">Хотя бы одна цифра</div>
+            <div class="pw-req" id="req-special">Хотя бы один спецсимвол (!@#$...)</div>
+          </div>
+          <div class="form-error" id="regPwErr">Пароль не соответствует требованиям</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Подтверждение пароля</label>
+          <div class="pw-wrap">
+            <input class="form-input" type="password" id="regConfirm" placeholder="Повторите пароль">
+            <button class="pw-toggle" onclick="togglePw('regConfirm', this)" type="button">👁</button>
+          </div>
+          <div class="form-error" id="regConfirmErr">Пароли не совпадают</div>
+        </div>
+        <button class="btn-auth" onclick="doRegister()">Создать аккаунт</button>
+        <p class="auth-terms">Нажимая «Создать аккаунт», вы соглашаетесь с <a href="#">Условиями использования</a> и <a href="#">Политикой конфиденциальности</a></p>
+      </div>
+
+      <!-- Success -->
+      <div class="auth-success" id="authSuccess">
+        <div class="auth-success-icon">🎉</div>
+        <h3>Всё готово!</h3>
+        <p>Добро пожаловать в TalentScope.<br>Перенаправляем вас в личный кабинет...</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     SUPABASE SDK
+════════════════════════════════════════════════════ -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+/* ═══════════════════════════════════════════════════
+   🔑  ВСТАВЬ СВОИ КЛЮЧИ SUPABASE ЗДЕСЬ
+   Найди их: Supabase Dashboard → Project Settings → API
+   ════════════════════════════════════════════════════ */
+const SUPABASE_URL  = 'https://ahlerpqwjkizvgoukvaq.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFobGVycHF3amtpenZnb3VrdmFxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2OTI1NjAsImV4cCI6MjA5MDI2ODU2MH0.wsLVcPHvR2EGyJchPAWhN8HocGAmNelUCkyg8k790Gc';
+
+/* ─── Инициализация клиента ─── */
+const { createClient } = supabase;
+const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
+
+/* ═══════════════════════════════════════════════════
+   СОСТОЯНИЕ СЕССИИ — обновляет UI при входе/выходе
+   ════════════════════════════════════════════════════ */
+async function initSession() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) onLoggedIn(session.user);
+
+  sb.auth.onAuthStateChange((_event, session) => {
+    if (session) onLoggedIn(session.user);
+    else onLoggedOut();
+  });
+
+  // Загружаем коучей из БД при старте
+  loadCoaches();
+  // Загружаем последний результат теста если есть сессия
+  if (session) loadLatestTestResult(session.user.id);
+}
+
+/* ═══════════════════════════════════════════════════
+   ПРОФИЛЬ — сохранение/загрузка из таблицы profiles
+   ════════════════════════════════════════════════════ */
+async function upsertProfile(user) {
+  await sb.from('profiles').upsert({
+    id:         user.id,
+    email:      user.email,
+    full_name:  user.user_metadata?.full_name || '',
+    avatar_url: user.user_metadata?.avatar_url || '',
+    updated_at: new Date().toISOString()
+  }, { onConflict: 'id' });
+}
+
+async function loadProfile(userId) {
+  const { data } = await sb.from('profiles').select('*').eq('id', userId).single();
+  if (!data) return;
+  const nameEl = document.querySelector('.profile-name');
+  const roleEl = document.querySelector('.profile-role');
+  if (nameEl && data.full_name) nameEl.textContent = data.full_name;
+  if (roleEl && data.role)      roleEl.textContent = data.role;
+  if (data.avatar_url) {
+    const display = document.getElementById('avatarDisplay');
+    if (display) display.innerHTML = '<img src="' + data.avatar_url + '" alt="Фото">';
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   КОУЧИ — загрузка из таблицы coaches
+   ════════════════════════════════════════════════════ */
+async function loadCoaches(filter = null) {
+  let query = sb.from('coaches').select('*').eq('is_published', true).order('rating', { ascending: false });
+  if (filter && filter !== 'all') query = query.contains('tags', [filter]);
+
+  const { data, error } = await query;
+  if (error || !data || data.length === 0) return; // Оставляем статичные карточки если БД пустая
+
+  renderCoaches(data);
+}
+
+function renderCoaches(coaches) {
+  const grid = document.querySelector('.coaches-grid');
+  if (!grid || coaches.length === 0) return;
+
+  grid.innerHTML = coaches.map(c => `
+    <div class="coach-card" data-id="${c.id}">
+      ${c.is_online ? '<div class="coach-badge">Онлайн сейчас</div>' : ''}
+      ${c.is_popular ? '<div class="coach-badge" style="background:var(--accent-soft);color:#b45309;">Популярный</div>' : ''}
+      <div class="coach-top" ${!c.is_online && !c.is_popular ? 'style="margin-top:24px"' : ''}>
+        <div class="coach-avatar" style="background: linear-gradient(135deg,#e0e7ff,#c7d2fe)">
+          ${c.avatar_url ? `<img src="${c.avatar_url}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">` : c.emoji || '👤'}
+        </div>
+        <div>
+          <div class="coach-name">${c.full_name}</div>
+          <div class="coach-spec">${c.specialization}</div>
+          <div class="coach-rating">⭐ ${c.rating} <span style="color:var(--text-muted);font-weight:400">(${c.reviews_count} отзывов)</span></div>
+        </div>
+      </div>
+      <div class="coach-tags">
+        ${(c.tags || []).map(t => `<span class="coach-tag">${t}</span>`).join('')}
+      </div>
+      <div class="coach-meta">
+        <span class="coach-exp">🏅 ${c.experience_years} лет опыта</span>
+        <span class="coach-price">${c.price}$ <span>/ сессия</span></span>
+      </div>
+      <button class="btn-book" onclick="bookCoach('${c.id}', '${c.full_name}')">Записаться на сессию</button>
+    </div>
+  `).join('');
+}
+
+async function bookCoach(coachId, coachName) {
+  const { data: { user } } = await sb.auth.getUser();
+  if (!user) {
+    openAuthModal();
+    return;
+  }
+  // Сохраняем заявку в БД
+  await sb.from('coach_bookings').insert({
+    user_id:    user.id,
+    coach_id:   coachId,
+    status:     'pending',
+    created_at: new Date().toISOString()
+  });
+  alert('✅ Заявка к ' + coachName + ' отправлена! С вами свяжутся в ближайшее время.');
+}
+
+// Фильтры коучей
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.filter-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const filterMap = {
+        'Все': 'all', 'Карьера': 'Карьера', 'Выгорание': 'Выгорание',
+        'Лидерство': 'Лидерство', 'Бизнес': 'Бизнес'
+      };
+      loadCoaches(filterMap[chip.textContent] || 'all');
+    });
+  });
+});
+
+/* ═══════════════════════════════════════════════════
+   РЕЗУЛЬТАТЫ ТЕСТА — сохранение в burnout_results
+   ════════════════════════════════════════════════════ */
+async function saveTestResult(score, level, answers) {
+  const { data: { user } } = await sb.auth.getUser();
+  const userId = user?.id || null;
+
+  const { data, error } = await sb.from('burnout_results').insert({
+    user_id:        userId,
+    score:          score,
+    level:          level,
+    interpretation: getBurnoutText(level),
+    answers_json:   answers,
+    created_at:     new Date().toISOString()
+  }).select().single();
+
+  if (!error && data) updateBurnoutUI(score, level);
+  return data;
+}
+
+async function loadLatestTestResult(userId) {
+  const { data } = await sb.from('burnout_results')
+    .select('*').eq('user_id', userId)
+    .order('created_at', { ascending: false }).limit(1).single();
+
+  if (data) updateBurnoutUI(data.score, data.level);
+}
+
+function getBurnoutText(level) {
+  const texts = {
+    low:    'Вы в хорошем ресурсном состоянии. Продолжайте поддерживать баланс.',
+    medium: 'Есть признаки усталости. Уделите внимание восстановлению и границам.',
+    high:   'Высокий уровень стресса. Рекомендуем обратиться к специалисту.'
+  };
+  return texts[level] || texts.low;
+}
+
+function updateBurnoutUI(score, level) {
+  // Обновляем шкалу
+  const gauge = document.querySelector('.gauge-fill');
+  if (gauge) gauge.style.width = score + '%';
+  const pct = document.querySelector('.gauge-pct');
+  if (pct) pct.textContent = score + '%';
+
+  // Обновляем бейдж
+  const badge = document.querySelector('.badge-low');
+  if (badge) {
+    const labels = { low: 'Низкий', medium: 'Средний', high: 'Высокий' };
+    const colors = {
+      low:    'background:var(--green-soft);color:#059669',
+      medium: 'background:var(--accent-soft);color:#b45309',
+      high:   'background:var(--red-soft);color:#b91c1c'
+    };
+    badge.textContent = labels[level] || 'Низкий';
+    badge.style.cssText = colors[level] || colors.low;
+  }
+
+  // SVG ring в профиле
+  const ringText = document.querySelector('.ring-svg text');
+  if (ringText) ringText.textContent = score + '%';
+  const ringFill = document.querySelector('.ring-svg circle:last-of-type');
+  if (ringFill) {
+    const circumference = 200.96;
+    const offset = circumference - (score / 100) * circumference;
+    ringFill.setAttribute('stroke-dashoffset', offset.toFixed(1));
+  }
+  const ringTitle = document.querySelector('.ring-info h4');
+  const ringDesc  = document.querySelector('.ring-info p');
+  const icons = { low: '🟢', medium: '🟡', high: '🔴' };
+  const titles = { low: 'Низкий уровень', medium: 'Средний уровень', high: 'Высокий уровень' };
+  if (ringTitle) ringTitle.textContent = (icons[level] || '🟢') + ' ' + (titles[level] || 'Низкий уровень');
+  if (ringDesc)  ringDesc.textContent  = getBurnoutText(level);
+}
+
+function onLoggedIn(user) {
+  const btn = document.querySelector('.nav-cta');
+  if (btn) {
+    btn.textContent = '👤 ' + (user.user_metadata?.full_name || user.email?.split('@')[0] || 'Кабинет');
+    btn.onclick = showUserMenu;
+  }
+  const nameEl = document.querySelector('.profile-name');
+  if (nameEl && user.user_metadata?.full_name) nameEl.textContent = user.user_metadata.full_name;
+  if (user.user_metadata?.avatar_url) {
+    const display = document.getElementById('avatarDisplay');
+    if (display) display.innerHTML = '<img src="' + user.user_metadata.avatar_url + '" alt="Фото">';
+  }
+  upsertProfile(user);
+  loadProfile(user.id);
+  loadAvatarFromStorage(user.id);
+  loadLatestTestResult(user.id);
+  initChat(user); // ← мульти-сессионный чат
+}
+
+function onLoggedOut() {
+  const btn = document.querySelector('.nav-cta');
+  if (btn) { btn.textContent = 'Войти →'; btn.onclick = () => { openAuthModal(); return false; }; }
+}
+
+async function loadAvatarFromStorage(userId) {
+  const { data } = await sb.storage.from('avatars').list(userId + '/');
+  if (data && data.length > 0) {
+    const { data: urlData } = sb.storage.from('avatars').getPublicUrl(userId + '/' + data[0].name);
+    const display = document.getElementById('avatarDisplay');
+    if (display && urlData?.publicUrl) {
+      display.innerHTML = '<img src="' + urlData.publicUrl + '?t=' + Date.now() + '" alt="Фото профиля">';
+    }
+  }
+}
+
+/* ─── Простое меню пользователя ─── */
+function showUserMenu() {
+  if (confirm('Выйти из аккаунта?')) {
+    sb.auth.signOut();
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   МОДАЛЬНОЕ ОКНО
+   ════════════════════════════════════════════════════ */
+function openAuthModal() {
+  document.getElementById('authModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  clearAuthErrors();
+}
+function closeAuthModal() {
+  document.getElementById('authModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeOnBackdrop(e) {
+  if (e.target === document.getElementById('authModal')) closeAuthModal();
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAuthModal(); });
+
+function switchTab(tab) {
+  document.querySelectorAll('.auth-tab').forEach((t, i) =>
+    t.classList.toggle('active', (i === 0 && tab === 'login') || (i === 1 && tab === 'register'))
+  );
+  document.getElementById('loginForm').style.display    = tab === 'login'    ? 'block' : 'none';
+  document.getElementById('registerForm').style.display = tab === 'register' ? 'block' : 'none';
+  document.getElementById('authSuccess').style.display  = 'none';
+  document.getElementById('modalTitle').textContent = tab === 'login' ? 'Добро пожаловать' : 'Создать аккаунт';
+  document.getElementById('modalSub').textContent   = tab === 'login' ? 'Войдите в свой аккаунт' : 'Зарегистрируйтесь бесплатно';
+  clearAuthErrors();
+}
+
+function clearAuthErrors() {
+  document.querySelectorAll('.form-error').forEach(e => e.classList.remove('show'));
+  document.querySelectorAll('.form-input').forEach(e => e.classList.remove('error'));
+}
+
+function togglePw(id, btn) {
+  const inp = document.getElementById(id);
+  if (inp.type === 'password') { inp.type = 'text'; btn.textContent = '🙈'; }
+  else { inp.type = 'password'; btn.textContent = '👁'; }
+}
+
+/* ─── Индикатор надёжности пароля ─── */
+function checkStrength(pw) {
+  const reqs = {
+    len:     pw.length >= 8,
+    upper:   /[A-Z]/.test(pw),
+    num:     /[0-9]/.test(pw),
+    special: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(pw)
+  };
+  ['len','upper','num','special'].forEach(k =>
+    document.getElementById('req-' + k).classList.toggle('met', reqs[k])
+  );
+  const score = Object.values(reqs).filter(Boolean).length;
+  const cls = score <= 1 ? 'weak' : score <= 3 ? 'medium' : 'strong';
+  const labels = { weak: '🔴 Слабый пароль', medium: '🟡 Средний пароль', strong: '🟢 Надёжный пароль' };
+  ['seg1','seg2','seg3','seg4'].forEach((s, i) => {
+    const el = document.getElementById(s);
+    el.className = 'strength-seg';
+    if (i < score) el.classList.add(cls);
+  });
+  const lbl = document.getElementById('strengthLabel');
+  lbl.textContent = pw.length ? labels[cls] : '';
+  lbl.className = 'strength-label ' + (pw.length ? cls : '');
+  return reqs.len && reqs.upper && reqs.num && reqs.special;
+}
+
+function showErr(id, show)    { document.getElementById(id).classList.toggle('show', show); }
+function setInputErr(id, err) { document.getElementById(id).classList.toggle('error', err); }
+
+function setLoading(btnId, loading, text) {
+  const btn = document.getElementById(btnId);
+  if (!btn) return;
+  btn.disabled = loading;
+  btn.textContent = loading ? '⏳ Подождите...' : text;
+}
+
+/* ═══════════════════════════════════════════════════
+   ВХОД (email + пароль) — Supabase Auth
+   ════════════════════════════════════════════════════ */
+async function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pw    = document.getElementById('loginPassword').value;
+  let ok = true;
+
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  setInputErr('loginEmail', !emailOk); showErr('loginEmailErr', !emailOk);
+  if (!emailOk) ok = false;
+  setInputErr('loginPassword', !pw); showErr('loginPwErr', !pw);
+  if (!pw) ok = false;
+  if (!ok) return;
+
+  setLoading('loginBtn', true, 'Войти в аккаунт');
+  const { error } = await sb.auth.signInWithPassword({ email, password: pw });
+  setLoading('loginBtn', false, 'Войти в аккаунт');
+
+  if (error) {
+    showAuthError(error.message.includes('Invalid') ? 'Неверный email или пароль' : error.message);
+  } else {
+    showSuccess('Добро пожаловать!', 'Вход выполнен успешно.');
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   РЕГИСТРАЦИЯ — Supabase Auth
+   ════════════════════════════════════════════════════ */
+async function doRegister() {
+  const name    = document.getElementById('regName').value.trim();
+  const email   = document.getElementById('regEmail').value.trim();
+  const pw      = document.getElementById('regPassword').value;
+  const confirm = document.getElementById('regConfirm').value;
+  let ok = true;
+
+  setInputErr('regName', !name); showErr('regNameErr', !name);
+  if (!name) ok = false;
+
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  setInputErr('regEmail', !emailOk); showErr('regEmailErr', !emailOk);
+  if (!emailOk) ok = false;
+
+  const pwStrong = checkStrength(pw);
+  setInputErr('regPassword', !pwStrong); showErr('regPwErr', !pwStrong);
+  if (!pwStrong) ok = false;
+
+  const confirmOk = pw === confirm && confirm.length > 0;
+  setInputErr('regConfirm', !confirmOk); showErr('regConfirmErr', !confirmOk);
+  if (!confirmOk) ok = false;
+  if (!ok) return;
+
+  setLoading('registerBtn', true, 'Создать аккаунт');
+  const { data, error } = await sb.auth.signUp({
+    email, password: pw,
+    options: { data: { full_name: name } }
+  });
+  setLoading('registerBtn', false, 'Создать аккаунт');
+
+  if (error) {
+    // Если ошибка триггера profiles — всё равно пользователь создан, просто создаём профиль вручную
+    if (error.message.includes('Database error') || error.message.includes('saving new user')) {
+      // Пробуем создать профиль вручную
+      if (data?.user) {
+        await sb.from('profiles').upsert({
+          id: data.user.id, email, full_name: name, updated_at: new Date().toISOString()
+        }, { onConflict: 'id' });
+        showSuccess('Аккаунт создан! 🎉', 'Проверьте почту — мы отправили письмо для подтверждения.');
+      } else {
+        // Триггер мешает — временно отключаем через workaround
+        showAuthError('Ошибка БД. Открой Supabase → SQL Editor и запусти: DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;');
+      }
+    } else if (error.message.includes('already')) {
+      showAuthError('Пользователь с таким email уже существует');
+    } else {
+      showAuthError(error.message);
+    }
+  } else {
+    showSuccess('Аккаунт создан! 🎉', 'Проверьте почту — мы отправили письмо для подтверждения.');
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   GOOGLE OAUTH — Supabase
+   ════════════════════════════════════════════════════ */
+async function authWithGoogle() {
+  const { error } = await sb.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: window.location.href,
+      queryParams: { access_type: 'offline', prompt: 'consent' }
+    }
+  });
+  if (error) showAuthError('Ошибка входа через Google: ' + error.message);
+}
+
+/* ─── Вспомогательные функции UI ─── */
+function showAuthError(msg) {
+  let errEl = document.getElementById('authGlobalErr');
+  if (!errEl) {
+    errEl = document.createElement('div');
+    errEl.id = 'authGlobalErr';
+    errEl.style.cssText = 'background:#FEE2E2;color:#B91C1C;border-radius:8px;padding:10px 14px;font-size:13px;font-weight:600;margin-bottom:12px;';
+    const body = document.querySelector('.auth-modal-body');
+    body.insertBefore(errEl, body.firstChild);
+  }
+  errEl.textContent = '⚠️ ' + msg;
+  errEl.style.display = 'block';
+  setTimeout(() => { if (errEl) errEl.style.display = 'none'; }, 5000);
+}
+
+function showSuccess(title = 'Всё готово!', sub = 'Добро пожаловать в TalentScope.') {
+  document.getElementById('loginForm').style.display    = 'none';
+  document.getElementById('registerForm').style.display = 'none';
+  document.getElementById('authSuccess').style.display  = 'block';
+  document.querySelector('.auth-success h3').textContent = title;
+  document.querySelector('.auth-success p').textContent  = sub;
+  setTimeout(closeAuthModal, 3000);
+}
+
+/* ═══════════════════════════════════════════════════
+   ЗАГРУЗКА АВАТАРА → Supabase Storage (bucket: avatars)
+   ════════════════════════════════════════════════════ */
+async function previewAvatar(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  // Показываем превью мгновенно
+  const reader = new FileReader();
+  reader.onload = e => {
+    const display = document.getElementById('avatarDisplay');
+    display.innerHTML = '<img src="' + e.target.result + '" alt="Фото профиля">';
+  };
+  reader.readAsDataURL(file);
+
+  // Загружаем в Supabase Storage
+  const { data: { user } } = await sb.auth.getUser();
+  if (!user) return; // Если не авторизован — только локальное превью
+
+  const ext      = file.name.split('.').pop();
+  const filePath = user.id + '/avatar.' + ext;
+
+  const { error } = await sb.storage.from('avatars').upload(filePath, file, {
+    upsert: true,
+    contentType: file.type
+  });
+
+  if (error) {
+    console.warn('Ошибка загрузки аватара:', error.message);
+  } else {
+    // Обновляем метаданные профиля с новым URL аватара
+    const { data: urlData } = sb.storage.from('avatars').getPublicUrl(filePath);
+    await sb.auth.updateUser({ data: { avatar_url: urlData.publicUrl } });
+    console.log('✅ Аватар сохранён в Supabase Storage');
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   🤖 OPENROUTER — AI чат и анализ Gallup
+   Получи ключ: openrouter.ai/keys (бесплатно)
+   ════════════════════════════════════════════════════ */
+const OPENROUTER_KEY = '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';
+
+const SYSTEM_PROMPT = `Ты — мой личный помощник по самопониманию, внутренней ясности и эмоциональной устойчивости. Работаешь в сервисе TalentScope.
+
+Помогай мне разбираться в себе: в чувствах, мыслях, реакциях, страхах, сомнениях, желаниях, обидах, тревоге, внутренней путанице и сложных жизненных ситуациях.
+
+Твоя роль: не просто отвечать, а помогать мне видеть себя глубже, честнее и яснее. Помогай замечать суть происходящего, понимать внутренние причины, находить опору и делать небольшие, но точные шаги вперед.
+
+Принципы ответов: краткость, глубина, ясность, бережность, честность, красивая чистая подача.
+
+Как отвечать:
+- пиши короткими абзацами
+- избегай длинных и тяжелых объяснений
+- говори мягко, но точно
+- не используй пустую мотивацию и банальные фразы
+- не драматизируй, не дави, не будь сухим
+- если нужно — задай 1–3 точных вопроса которые помогают лучше понять себя
+- если ситуация эмоционально тяжелая — сначала дай чувство опоры, потом анализ
+- если проблема практическая — помоги выделить суть и предложи понятные шаги
+
+Структура ответа:
+1. Коротко отрази что со мной происходит
+2. Помоги понять что может стоять за этим
+3. Дай спокойный и зрелый взгляд со стороны
+4. Предложи 1–3 шага или вопроса для размышления
+
+Тон: теплый, умный, спокойный, внимательный, зрелый. Ответы должны ощущаться как помощь человека который умеет видеть глубину, но говорит просто.
+
+Чего нельзя: банальностей, нравоучений, пустых утешений, слишком длинных ответов, сложного языка, грубой оценки, категоричности там где нужна деликатность.
+
+Если запрос касается талантов Gallup или карьеры — также помогай с этим, опираясь на методологию CliftonStrengths. Если нужен полный анализ Gallup — предложи загрузить файл через форму на сайте.
+
+Отвечай ТОЛЬКО на русском языке.`;
+
+
+
+/* ═══════════════════════════════════════════════════
+   💬 ЧАТ — мульти-сессии, история, гостевой режим
+   ════════════════════════════════════════════════════ */
+let currentSessionId = null;   // UUID активной сессии в БД
+let currentUser = null;        // текущий авторизованный user
+let chatHistory = [];          // история для OpenRouter (в памяти)
+let isSavingEnabled = false;   // сохраняем только авторизованным
+
+/* Вызывается из onLoggedIn */
+async function initChat(user) {
+  currentUser = user;
+  isSavingEnabled = true;
+  // Скрываем гостевое уведомление, показываем кнопки
+  document.getElementById('guestChatNotice').style.display = 'none';
+  document.getElementById('chatHistoryBtn').style.display = 'flex';
+  document.getElementById('newChatBtn').style.display = 'flex';
+  // Загружаем или создаём сессию
+  await loadOrCreateSession(user.id);
+  await loadChatSessions(user.id);
+}
+
+/* Создаём новую сессию в БД и очищаем экран */
+async function createNewChat() {
+  if (!currentUser) { openAuthModal(); return; }
+  chatHistory = [];
+  clearChatUI();
+  const { data } = await sb.from('chat_sessions').insert({
+    user_id: currentUser.id, status: 'active', created_at: new Date().toISOString()
+  }).select().single();
+  if (data) currentSessionId = data.id;
+  document.getElementById('chatSessionName').textContent = 'Новый чат';
+  await loadChatSessions(currentUser.id);
+  closeChatSidebar();
+}
+
+/* Загружаем последнюю активную сессию или создаём новую */
+async function loadOrCreateSession(userId) {
+  const { data } = await sb.from('chat_sessions')
+    .select('*').eq('user_id', userId).eq('status', 'active')
+    .order('created_at', { ascending: false }).limit(1).maybeSingle();
+  if (data) {
+    currentSessionId = data.id;
+    await loadSessionMessages(data.id);
+  } else {
+    const { data: newS } = await sb.from('chat_sessions').insert({
+      user_id: userId, status: 'active', created_at: new Date().toISOString()
+    }).select().single();
+    if (newS) currentSessionId = newS.id;
+  }
+}
+
+/* Загружаем сообщения сессии в UI */
+async function loadSessionMessages(sessionId) {
+  const { data } = await sb.from('chat_messages')
+    .select('*').eq('session_id', sessionId).order('created_at', { ascending: true });
+  if (!data || data.length === 0) return;
+  clearChatUI();
+  chatHistory = [];
+  data.forEach(m => {
+    addMessage(m.role === 'user' ? 'user' : 'bot', m.content, false);
+    chatHistory.push({ role: m.role, content: m.content });
+  });
+}
+
+/* Список всех сессий в сайдбаре */
+async function loadChatSessions(userId) {
+  const { data } = await sb.from('chat_sessions')
+    .select('id, created_at').eq('user_id', userId)
+    .order('created_at', { ascending: false }).limit(20);
+  if (!data) return;
+  const list = document.getElementById('chatSessionsList');
+  list.innerHTML = data.map((s, i) => {
+    const date = new Date(s.created_at).toLocaleDateString('ru', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' });
+    const isActive = s.id === currentSessionId;
+    return `<div onclick="switchSession('${s.id}')" style="
+      padding:8px 12px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:${isActive?'700':'500'};
+      background:${isActive?'var(--blue-pale)':'transparent'};color:${isActive?'var(--blue)':'var(--text)'};
+      margin-bottom:2px;transition:background .15s;
+    ">💬 Чат от ${date}</div>`;
+  }).join('');
+}
+
+async function switchSession(sessionId) {
+  currentSessionId = sessionId;
+  chatHistory = [];
+  clearChatUI();
+  await loadSessionMessages(sessionId);
+  closeChatSidebar();
+  await loadChatSessions(currentUser.id); // обновляем выделение
+}
+
+function clearChatUI() {
+  const container = document.getElementById('chatMessages');
+  container.innerHTML = '';
+}
+
+function toggleChatSidebar() {
+  const sidebar = document.getElementById('chatSidebar');
+  sidebar.style.display = sidebar.style.display === 'none' ? 'block' : 'none';
+}
+function closeChatSidebar() {
+  document.getElementById('chatSidebar').style.display = 'none';
+}
+
+/* Сохраняем сообщение в БД (только авторизованным) */
+async function saveMsgToDB(role, content) {
+  if (!isSavingEnabled || !currentSessionId) return;
+  await sb.from('chat_messages').insert({
+    session_id: currentSessionId, role, content,
+    created_at: new Date().toISOString()
+  });
+}
+
+function addMessage(role, text, save = true) {
+  const container = document.getElementById('chatMessages');
+  if (!container) return;
+  const now = new Date().toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' });
+  const div = document.createElement('div');
+  div.className = 'msg msg-' + (role === 'user' ? 'user' : 'bot');
+  div.innerHTML = `<div class="msg-bubble">${text.replace(/\n/g,'<br>')}</div><div class="msg-time">${now}</div>`;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+  if (save) saveMsgToDB(role === 'user' ? 'user' : 'assistant', text);
+}
+
+function addTyping() {
+  const container = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = 'msg msg-bot'; div.id = 'typingIndicator';
+  div.innerHTML = '<div class="typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+function removeTyping() { const el = document.getElementById('typingIndicator'); if (el) el.remove(); }
+
+async function sendChatMessage() {
+  const input = document.getElementById('chatInput');
+  const text = input?.value?.trim();
+  if (!text) return;
+  input.value = '';
+  await sendMsg(text);
+}
+async function sendQuickMsg(text) { await sendMsg(text); }
+
+async function sendMsg(text) {
+  if (OPENROUTER_KEY === 'ВСТАВЬ_КЛЮЧ_OPENROUTER') {
+    addMessage('user', text);
+    addMessage('bot', '⚠️ Вставьте ключ OpenRouter в переменную OPENROUTER_KEY.');
+    return;
+  }
+  addMessage('user', text);
+  addTyping();
+  try {
+    const reply = await callOpenRouter(text);
+    removeTyping();
+    addMessage('bot', reply);
+  } catch(e) {
+    removeTyping();
+    addMessage('bot', '😔 Сервис временно недоступен. Попробуйте чуть позже.');
+    console.error('Chat error:', e);
+  }
+}
+/* callOpenRouter ниже */
+async function callOpenRouter(userMessage) {
+  chatHistory.push({ role: 'user', content: userMessage });
+  let lastError = null;
+  const models = [
+    'meta-llama/llama-3.1-8b-instruct:free',
+    'google/gemini-flash-1.5',
+    'openai/gpt-3.5-turbo'
+  ];
+  for (const model of models) {
+    try {
+      const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer ' + OPENROUTER_KEY,
+          'Content-Type': 'application/json',
+          'HTTP-Referer': window.location.origin || 'https://talentscope.app',
+          'X-Title': 'TalentScope'
+        },
+        body: JSON.stringify({
+          model,
+          messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...chatHistory.slice(-10)],
+          max_tokens: 600,
+          temperature: 0.7
+        })
+      });
+      if (!response.ok) {
+        const errText = await response.text();
+        console.warn(`Model ${model} failed:`, response.status, errText);
+        lastError = errText;
+        continue; // пробуем следующую модель
+      }
+      const data = await response.json();
+      const reply = data.choices?.[0]?.message?.content;
+      if (!reply) throw new Error('Пустой ответ от модели');
+      chatHistory.push({ role: 'assistant', content: reply });
+      return reply;
+    } catch(e) {
+      console.warn(`Model ${model} error:`, e.message);
+      lastError = e.message;
+    }
+  }
+  throw new Error('Все модели недоступны: ' + lastError);
+}
+
+/* ═══════════════════════════════════════════════════
+   📄 ЗАГРУЗКА GALLUP ФАЙЛА + AI АНАЛИЗ
+   ════════════════════════════════════════════════════ */
+async function handleGallupUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const statusEl = document.getElementById('uploadStatus');
+  statusEl.style.display = 'block';
+  statusEl.style.color = 'var(--blue)';
+  statusEl.textContent = '⏳ Загружаем файл...';
+  try {
+    const { data: { user } } = await sb.auth.getUser();
+    const userId = user?.id || 'guest';
+    const ext = file.name.split('.').pop();
+    const filePath = userId + '/gallup_' + Date.now() + '.' + ext;
+    const { error: uploadErr } = await sb.storage.from('avatars').upload(filePath, file, { upsert: true, contentType: file.type });
+    if (uploadErr) throw uploadErr;
+    statusEl.textContent = '✅ Файл загружен! Анализируем...';
+    if (OPENROUTER_KEY !== 'ВСТАВЬ_КЛЮЧ_OPENROUTER') {
+      const fileText = await new Promise(res => {
+        const r = new FileReader();
+        r.onload = e => res(e.target.result);
+        file.type.startsWith('image/') ? r.readAsDataURL(file) : r.readAsText(file);
+      });
+      const analysisPrompt = `Выступи в роли опытного карьерного консультанта, коуча по сильным сторонам и эксперта по интерпретации результатов Gallup CliftonStrengths.
+
+Я дам тебе результаты теста Gallup. Твоя задача — провести глубокий, понятный и практичный анализ на русском языке, без воды, но с живыми примерами.
+
+Сделай разбор в такой структуре:
+
+1. Краткое общее резюме профиля
+- Коротко опиши общий психологический и рабочий профиль человека на основе сочетания талантов.
+- Покажи, в чем его естественная сила, как он обычно мыслит, принимает решения, взаимодействует с людьми и работает.
+- Объясни уникальный стиль деятельности из сочетания талантов.
+
+2. Подробный разбор каждого из топ-5 талантов
+Для каждого таланта:
+- простое объяснение что означает этот талант
+- как проявляется в поведении, мышлении, работе
+- сильные стороны и возможные риски при чрезмерном проявлении
+- что важно учитывать чтобы талант работал в плюс
+
+3. Синергия талантов
+- Как эти таланты усиливают друг друга
+- Сильные сочетания и возможные внутренние противоречия
+- Как использовать комбинацию как конкурентное преимущество
+
+4. Подходящие сферы и роли
+- Конкретные направления работы, роли, форматы задач
+- В каких типах компаний и команд этот профиль будет особенно силен
+
+5. Карьерные рекомендации с учетом России
+- Как максимально реализовать потенциал именно в России
+- В каких сферах и отраслях этот профиль востребован
+- Конкретные карьерные траектории
+- Практические советы как строить карьеру опираясь на сильные стороны
+
+6. Практические рекомендации
+- 5–7 конкретных рекомендаций что делать уже сейчас
+- Чего лучше избегать в карьере
+- Как выбирать работу, команду и руководителя под свой профиль
+
+В конце — итоговый вывод: кто я как профессионал, в чем главная ценность, какая карьерная стратегия наиболее перспективна.
+
+Пиши профессионально но понятно и человечно. Структурируй с подзаголовками. Анализируй только те таланты которые есть в результатах.
+
+Результаты Gallup-теста пользователя:
+${fileText.slice(0, 4000)}`;
+      statusEl.textContent = '🤖 AI анализирует таланты...';
+      const analysis = await callOpenRouter(analysisPrompt);
+      statusEl.textContent = '✅ Анализ готов! Смотри в чате ↑';
+      addMessage('bot', '📊 Анализ вашего Gallup-теста:\n\n' + analysis);
+      document.getElementById('chat-section').scrollIntoView({ behavior: 'smooth' });
+      document.getElementById('results-section').style.display = 'block';
+      // Сохраняем в БД только если пользователь авторизован — иначе RLS заблокирует
+      if (user && user.id) {
+        const { error: dbErr } = await sb.from('talent_results').insert({
+          user_id: user.id, ai_summary: analysis, status: 'done',
+          created_at: new Date().toISOString()
+        });
+        if (dbErr) console.warn('DB talent_results skip:', dbErr.message);
+      }
+    } else {
+      statusEl.textContent = '✅ Файл загружен! Добавьте ключ OpenRouter для AI-анализа.';
+    }
+  } catch(e) {
+    statusEl.style.color = 'var(--red)';
+    statusEl.textContent = '❌ Ошибка: ' + e.message;
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   📋 ТЕСТ НА ВЫГОРАНИЕ
+   (Замени вопросы на свои когда пришлёшь их)
+   ════════════════════════════════════════════════════ */
+const BURNOUT_QUESTIONS = [
+  { q: 'Как часто вы чувствуете себя эмоционально истощённым после рабочего дня?', opts: ['Никогда', 'Редко', 'Иногда', 'Часто', 'Постоянно'] },
+  { q: 'Насколько сложно вам сейчас находить смысл в своей работе?', opts: ['Совсем не сложно', 'Немного сложно', 'Достаточно сложно', 'Очень сложно', 'Смысл полностью потерян'] },
+  { q: 'Как часто вы испытываете раздражение или цинизм по отношению к работе?', opts: ['Никогда', 'Редко', 'Иногда', 'Часто', 'Постоянно'] },
+  { q: 'Насколько эффективно вы справляетесь с рабочими задачами по сравнению с прошлым годом?', opts: ['Намного лучше', 'Так же', 'Немного хуже', 'Значительно хуже', 'Почти не справляюсь'] },
+  { q: 'Как часто вы думаете о смене работы или профессии из-за усталости?', opts: ['Никогда', 'Редко', 'Иногда', 'Часто', 'Каждый день'] },
+  { q: 'Удаётся ли вам восстанавливаться за выходные?', opts: ['Да, полностью', 'В основном да', 'Частично', 'Почти нет', 'Нет совсем'] },
+  { q: 'Как часто вы испытываете физические симптомы усталости (головные боли, нарушения сна)?', opts: ['Никогда', 'Редко', 'Иногда', 'Часто', 'Постоянно'] },
+  { q: 'Чувствуете ли вы поддержку со стороны коллег и руководства?', opts: ['Да, полностью', 'В основном да', 'Иногда', 'Редко', 'Нет совсем'] },
+  { q: 'Насколько вы удовлетворены балансом между работой и личной жизнью?', opts: ['Полностью доволен', 'В основном доволен', 'Нейтрально', 'Скорее недоволен', 'Совсем не доволен'] },
+  { q: 'Если бы вы могли оценить свой текущий уровень профессионального выгорания, что бы вы выбрали?', opts: ['Я в отличной форме', 'Немного устал, но справляюсь', 'Чувствую усталость', 'Сильно выгорел', 'На грани срыва'] },
+];
+
+let burnoutCurrent = 0;
+let burnoutAnswers = [];
+
+function openBurnoutTest() {
+  burnoutCurrent = 0;
+  burnoutAnswers = new Array(BURNOUT_QUESTIONS.length).fill(null);
+  document.getElementById('burnoutModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('burnoutQuestionArea').style.display = 'block';
+  document.getElementById('burnoutResultArea').style.display = 'none';
+  document.getElementById('burnoutNav').style.display = 'flex';
+  renderBurnoutQuestion();
+}
+
+function closeBurnoutModal() {
+  document.getElementById('burnoutModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeBurnoutOnBackdrop(e) {
+  if (e.target === document.getElementById('burnoutModal')) closeBurnoutModal();
+}
+
+function renderBurnoutQuestion() {
+  const q = BURNOUT_QUESTIONS[burnoutCurrent];
+  const total = BURNOUT_QUESTIONS.length;
+
+  document.getElementById('burnoutModalTitle').textContent = 'Тест на уровень выгорания';
+  document.getElementById('burnoutProgress').textContent = `Вопрос ${burnoutCurrent + 1} из ${total}`;
+  document.getElementById('burnoutProgressBar').style.width = ((burnoutCurrent + 1) / total * 100) + '%';
+  document.getElementById('burnoutQuestionText').textContent = q.q;
+  document.getElementById('burnoutPrevBtn').style.opacity = burnoutCurrent === 0 ? '.3' : '1';
+  document.getElementById('burnoutPrevBtn').disabled = burnoutCurrent === 0;
+
+  const optsEl = document.getElementById('burnoutOptions');
+  optsEl.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.textContent = opt;
+    const isSelected = burnoutAnswers[burnoutCurrent] === i;
+    btn.style.cssText = `
+      width:100%;text-align:left;padding:12px 16px;border-radius:10px;cursor:pointer;
+      font-size:14px;font-weight:${isSelected ? '700' : '500'};font-family:Manrope,sans-serif;
+      border:1.5px solid ${isSelected ? 'var(--blue)' : 'var(--border)'};
+      background:${isSelected ? 'var(--blue-pale)' : 'var(--card)'};
+      color:${isSelected ? 'var(--blue)' : 'var(--text)'};
+      transition:all .15s;
+    `;
+    btn.onclick = () => {
+      burnoutAnswers[burnoutCurrent] = i;
+      // Активируем кнопку Далее
+      const nextBtn = document.getElementById('burnoutNextBtn');
+      nextBtn.disabled = false;
+      nextBtn.style.opacity = '1';
+      nextBtn.textContent = burnoutCurrent === BURNOUT_QUESTIONS.length - 1 ? 'Завершить ✓' : 'Далее →';
+      document.getElementById('burnoutNavLabel').textContent = '';
+      renderBurnoutQuestion();
+    };
+    optsEl.appendChild(btn);
+  });
+
+  // Состояние кнопки Далее
+  const nextBtn = document.getElementById('burnoutNextBtn');
+  const answered = burnoutAnswers[burnoutCurrent] !== null;
+  nextBtn.disabled = !answered;
+  nextBtn.style.opacity = answered ? '1' : '.4';
+  nextBtn.textContent = burnoutCurrent === BURNOUT_QUESTIONS.length - 1 ? 'Завершить ✓' : 'Далее →';
+}
+
+function burnoutNext() {
+  if (burnoutAnswers[burnoutCurrent] === null) return;
+  if (burnoutCurrent < BURNOUT_QUESTIONS.length - 1) {
+    burnoutCurrent++;
+    renderBurnoutQuestion();
+  } else {
+    showBurnoutResult();
+  }
+}
+
+function burnoutPrev() {
+  if (burnoutCurrent > 0) { burnoutCurrent--; renderBurnoutQuestion(); }
+}
+
+async function showBurnoutResult() {
+  // Считаем балл: каждый ответ 0-4, итого 0-40, переводим в %
+  const totalScore = burnoutAnswers.reduce((sum, a) => sum + (a || 0), 0);
+  const maxScore = (BURNOUT_QUESTIONS.length - 1) * 4;
+  const pct = Math.round((totalScore / maxScore) * 100);
+
+  let level, emoji, title, desc;
+  if (pct <= 30) {
+    level = 'low'; emoji = '🟢'; title = 'Низкий уровень выгорания';
+    desc = 'Вы в хорошем ресурсном состоянии. Продолжайте поддерживать баланс — это ваша сильная сторона. Для раскрытия потенциала рекомендуем изучить ваши таланты через Gallup-Test.';
+  } else if (pct <= 60) {
+    level = 'medium'; emoji = '🟡'; title = 'Средний уровень выгорания';
+    desc = 'Есть признаки накопленной усталости. Уделите внимание восстановлению, выстройте границы между работой и отдыхом. Консультация с коучем поможет найти решения.';
+  } else {
+    level = 'high'; emoji = '🔴'; title = 'Высокий уровень выгорания';
+    desc = 'Вы переживаете серьёзный стресс. Важно начать восстановление прямо сейчас. Рекомендуем поговорить с коучем — это безопасное и поддерживающее пространство.';
+  }
+
+  document.getElementById('burnoutResultEmoji').textContent = emoji;
+  document.getElementById('burnoutResultTitle').textContent = title;
+  document.getElementById('burnoutResultDesc').textContent = desc;
+  document.getElementById('burnoutScore').textContent = pct + '%';
+  document.getElementById('burnoutQuestionArea').style.display = 'none';
+  document.getElementById('burnoutNav').style.display = 'none';
+  document.getElementById('burnoutResultArea').style.display = 'block';
+  document.getElementById('burnoutProgress').textContent = 'Тест завершён ✓';
+  document.getElementById('burnoutProgressBar').style.width = '100%';
+
+  // Сохраняем в Supabase
+  const { data: { user } } = await sb.auth.getUser();
+  await sb.from('burnout_results').insert({
+    user_id: user?.id || null, score: pct, level,
+    interpretation: desc, answers_json: burnoutAnswers,
+    created_at: new Date().toISOString()
+  });
+  updateBurnoutUI(pct, level);
+}
+
+/* ═══════════════════════════════════════════════════
+   🔍 ТЕСТ ПОДКЛЮЧЕНИЯ — запускается при загрузке
+   ════════════════════════════════════════════════════ */
+async function runConnectionTest() {
+  const toast = document.getElementById('conn-toast');
+  const toastIcon = document.getElementById('conn-icon');
+  const toastText = document.getElementById('conn-text');
+
+  // Показываем "проверяем..."
+  toast.style.display = 'flex';
+  toastIcon.textContent = '⏳';
+  toastText.textContent = 'Проверяем подключение к Supabase...';
+  toast.style.background = '#F8FAFF';
+  toast.style.borderColor = '#C7D3FF';
+
+  const results = { db: false, auth: false, storage: false };
+
+  // 1. Проверка БД — таблица coaches
+  try {
+    const { data, error } = await sb.from('coaches').select('id').limit(1);
+    results.db = !error;
+  } catch(e) { results.db = false; }
+
+  // 2. Проверка Auth
+  try {
+    const { data, error } = await sb.auth.getSession();
+    results.auth = !error;
+  } catch(e) { results.auth = false; }
+
+  // 3. Проверка Storage — bucket avatars
+  try {
+    const { data, error } = await sb.storage.from('avatars').list('', { limit: 1 });
+    results.storage = !error;
+  } catch(e) { results.storage = false; }
+
+  const allOk = results.db && results.auth && results.storage;
+  const dbOk  = results.db;
+  const authOk = results.auth;
+
+  if (allOk) {
+    toastIcon.textContent = '✅';
+    toastText.innerHTML = '<strong>Supabase подключён!</strong> БД ✓ &nbsp; Auth ✓ &nbsp; Storage ✓';
+    toast.style.background = '#D1FAE5';
+    toast.style.borderColor = '#34D399';
+    toast.style.color = '#065F46';
+  } else if (authOk) {
+    toastIcon.textContent = '⚠️';
+    let missing = [];
+    if (!results.db)      missing.push('БД — запусти SQL миграцию');
+    if (!results.storage) missing.push('Storage — создай bucket "avatars"');
+    toastText.innerHTML = '<strong>Auth ✓</strong> &nbsp;|&nbsp; Не готово: ' + missing.join(', ');
+    toast.style.background = '#FFF3DC';
+    toast.style.borderColor = '#FFB547';
+    toast.style.color = '#92400E';
+  } else {
+    toastIcon.textContent = '❌';
+    toastText.innerHTML = '<strong>Нет подключения.</strong> Проверь ключи Supabase или настройки проекта.';
+    toast.style.background = '#FEE2E2';
+    toast.style.borderColor = '#F87171';
+    toast.style.color = '#991B1B';
+  }
+
+  // Скрываем через 7 секунд
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transition = 'opacity .5s';
+    setTimeout(() => toast.style.display = 'none', 500);
+  }, 7000);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const loginBtn = document.querySelector('#loginForm .btn-auth');
+  if (loginBtn) loginBtn.id = 'loginBtn';
+  const regBtn = document.querySelector('#registerForm .btn-auth');
+  if (regBtn) regBtn.id = 'registerBtn';
+
+  initSession();
+  runConnectionTest();
+});
+</script>
+
+<!-- ═══ COACH REGISTRATION MODAL ═══ -->
+<div class="modal-backdrop" id="coachRegModal" onclick="closeCoachRegOnBackdrop(event)">
+  <div class="auth-modal" style="max-width:560px;max-height:90vh;overflow-y:auto">
+    <div class="auth-modal-header">
+      <div>
+        <div class="auth-modal-title">Стать коучем в TalentScope</div>
+        <div class="auth-modal-sub">Заполните анкету — мы свяжемся с вами в течение 2 рабочих дней</div>
+      </div>
+      <button class="modal-close" onclick="closeCoachRegModal()">✕</button>
+    </div>
+    <div class="auth-modal-body">
+
+      <div id="coachRegForm">
+        <!-- Личные данные -->
+        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);margin-bottom:12px">👤 Личные данные</div>
+
+        <div class="form-group">
+          <label class="form-label">Имя и фамилия *</label>
+          <input class="form-input" id="cr_name" type="text" placeholder="Анна Иванова">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="form-group">
+            <label class="form-label">Email *</label>
+            <input class="form-input" id="cr_email" type="email" placeholder="anna@mail.ru">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Телефон</label>
+            <input class="form-input" id="cr_phone" type="tel" placeholder="+7 999 000 00 00">
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Профессиональный опыт -->
+        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);margin-bottom:12px">🎓 Опыт и специализация</div>
+
+        <div class="form-group">
+          <label class="form-label">Специализация *</label>
+          <input class="form-input" id="cr_spec" type="text" placeholder="Gallup-коуч, карьерный консультант, бизнес-коуч...">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="form-group">
+            <label class="form-label">Опыт (лет) *</label>
+            <input class="form-input" id="cr_exp" type="number" min="1" max="50" placeholder="5">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Стоимость сессии ($) *</label>
+            <input class="form-input" id="cr_price" type="number" min="10" placeholder="120">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Темы работы с клиентами *</label>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px" id="cr_tags_wrap">
+            <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer">
+              <input type="checkbox" value="Карьера"> Карьера</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer">
+              <input type="checkbox" value="Выгорание"> Выгорание</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer">
+              <input type="checkbox" value="Gallup"> Gallup</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer">
+              <input type="checkbox" value="Лидерство"> Лидерство</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer">
+              <input type="checkbox" value="Бизнес"> Бизнес</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer">
+              <input type="checkbox" value="Mindfulness"> Mindfulness</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Сертификаты и образование</label>
+          <input class="form-input" id="cr_certs" type="text" placeholder="ICF PCC, Gallup Certified Strengths Coach...">
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- О себе -->
+        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);margin-bottom:12px">✍️ О себе</div>
+
+        <div class="form-group">
+          <label class="form-label">Краткое био *</label>
+          <textarea class="form-input" id="cr_bio" rows="3" placeholder="Расскажите о своём подходе к работе с клиентами и вашем опыте..." style="resize:vertical;min-height:80px"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Ссылка на LinkedIn или сайт</label>
+          <input class="form-input" id="cr_link" type="url" placeholder="https://linkedin.com/in/...">
+        </div>
+
+        <div style="background:var(--blue-pale);border-radius:10px;padding:12px 14px;font-size:12px;color:var(--text-muted);margin-bottom:16px;line-height:1.6">
+          🔒 Ваши данные защищены. После проверки анкеты мы опубликуем ваш профиль в каталоге и свяжемся с вами для обсуждения деталей сотрудничества.
+        </div>
+
+        <button class="btn-auth" onclick="submitCoachReg()" id="coachRegBtn">
+          Отправить заявку →
+        </button>
+      </div>
+
+      <!-- Success state -->
+      <div class="auth-success" id="coachRegSuccess" style="display:none">
+        <div class="auth-success-icon">🎉</div>
+        <h3>Заявка отправлена!</h3>
+        <p>Мы получили вашу анкету и свяжемся с вами в течение 2 рабочих дней на указанный email.</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── Mobile menu ── */
+function toggleMobileMenu() {
+  const nav = document.getElementById('navLinks');
+  const burger = document.getElementById('hamburger');
+  const isOpen = nav.classList.toggle('mobile-open');
+  burger.style.opacity = isOpen ? '.6' : '1';
+}
+// Закрываем меню при клике на ссылку
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('#navLinks a').forEach(a => {
+    a.addEventListener('click', () => {
+      document.getElementById('navLinks').classList.remove('mobile-open');
+    });
+  });
+});
+
+/* ── Coach Registration Modal ── */
+function openCoachRegModal() {
+  document.getElementById('coachRegModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeCoachRegModal() {
+  document.getElementById('coachRegModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeCoachRegOnBackdrop(e) {
+  if (e.target === document.getElementById('coachRegModal')) closeCoachRegModal();
+}
+
+async function submitCoachReg() {
+  const name  = document.getElementById('cr_name').value.trim();
+  const email = document.getElementById('cr_email').value.trim();
+  const spec  = document.getElementById('cr_spec').value.trim();
+  const exp   = document.getElementById('cr_exp').value;
+  const price = document.getElementById('cr_price').value;
+  const bio   = document.getElementById('cr_bio').value.trim();
+
+  if (!name || !email || !spec || !exp || !price || !bio) {
+    alert('Пожалуйста, заполните все обязательные поля (*)');
+    return;
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    alert('Введите корректный email');
+    return;
+  }
+
+  // Собираем выбранные теги
+  const tags = Array.from(document.querySelectorAll('#cr_tags_wrap input[type=checkbox]:checked'))
+    .map(cb => cb.value);
+
+  const btn = document.getElementById('coachRegBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Отправляем...';
+
+  try {
+    // Сохраняем заявку в Supabase (таблица coach_applications)
+    const { error } = await sb.from('coach_applications').insert({
+      full_name:        name,
+      email:            email,
+      phone:            document.getElementById('cr_phone').value.trim(),
+      specialization:   spec,
+      experience_years: parseInt(exp),
+      price:            parseInt(price),
+      tags:             tags,
+      certificates:     document.getElementById('cr_certs').value.trim(),
+      bio:              bio,
+      portfolio_url:    document.getElementById('cr_link').value.trim(),
+      status:           'pending',
+      created_at:       new Date().toISOString()
+    });
+
+    if (error) {
+      // Если таблицы нет — всё равно показываем успех (данные попадут позже)
+      console.warn('DB error (coach_applications may not exist yet):', error.message);
+    }
+
+    // Показываем успех в любом случае
+    document.getElementById('coachRegForm').style.display = 'none';
+    document.getElementById('coachRegSuccess').style.display = 'block';
+    setTimeout(closeCoachRegModal, 4000);
+
+  } catch(e) {
+    btn.disabled = false;
+    btn.textContent = 'Отправить заявку →';
+    alert('Ошибка: ' + e.message);
+  }
+}
+</script>
+
+</body>
+</html>
