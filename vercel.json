@@ -1,15 +1,5 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "talentscope.html",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/talentscope.html"
-    }
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/talentscope.html" }
   ]
 }
