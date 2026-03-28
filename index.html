@@ -1879,25 +1879,20 @@ async function doRegister() {
   setLoading('registerBtn', true, 'Создать аккаунт');
   const { data, error } = await sb.auth.signUp({
     email, password: pw,
-    options: { data: { full_name: name } }
+    options: {
+      data: { full_name: name },
+      emailRedirectTo: SITE_URL
+    }
   });
   setLoading('registerBtn', false, 'Создать аккаунт');
 
   if (error) {
-    // Если ошибка триггера profiles — всё равно пользователь создан, просто создаём профиль вручную
-    if (error.message.includes('Database error') || error.message.includes('saving new user')) {
-      // Пробуем создать профиль вручную
-      if (data?.user) {
-        await sb.from('profiles').upsert({
-          id: data.user.id, email, full_name: name, updated_at: new Date().toISOString()
-        }, { onConflict: 'id' });
-        showSuccess('Аккаунт создан! 🎉', 'Проверьте почту — мы отправили письмо для подтверждения.');
-      } else {
-        // Триггер мешает — временно отключаем через workaround
-        showAuthError('Ошибка БД. Открой Supabase → SQL Editor и запусти: DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;');
-      }
-    } else if (error.message.includes('already')) {
-      showAuthError('Пользователь с таким email уже существует');
+    if (error.message.includes('already registered') || error.message.includes('already')) {
+      showAuthError('Пользователь с таким email уже существует. Попробуйте войти.');
+    } else if (error.message.includes('Database error') || error.message.includes('saving new user')) {
+      // Триггер on_auth_user_created сломан — запусти в SQL Editor:
+      // DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+      showAuthError('Ошибка БД. Запусти в Supabase SQL Editor: DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;');
     } else {
       showAuthError(error.message);
     }
@@ -1913,11 +1908,11 @@ async function authWithGoogle() {
   const { error } = await sb.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: window.location.href,
+      redirectTo: SITE_URL,
       queryParams: { access_type: 'offline', prompt: 'consent' }
     }
   });
-  if (error) showAuthError('Ошибка входа через Google: ' + error.message);
+  if (error) showAuthError('Google OAuth не настроен. Включите в Supabase → Authentication → Providers → Google');
 }
 
 /* ─── Вспомогательные функции UI ─── */
@@ -1986,6 +1981,7 @@ async function previewAvatar(event) {
    Получи ключ: openrouter.ai/keys (бесплатно)
    ════════════════════════════════════════════════════ */
 const OPENROUTER_KEY = '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';
+const SITE_URL = 'https://talentscope-brown.vercel.app';
 
 const SYSTEM_PROMPT = `Ты — мой личный помощник по самопониманию, внутренней ясности и эмоциональной устойчивости. Работаешь в сервисе TalentScope.
 
@@ -2199,7 +2195,7 @@ async function callOpenRouter(userMessage) {
         headers: {
           'Authorization': 'Bearer ' + OPENROUTER_KEY,
           'Content-Type': 'application/json',
-          'HTTP-Referer': window.location.origin || 'https://talentscope.app',
+          'HTTP-Referer': SITE_URL,
           'X-Title': 'TalentScope'
         },
         body: JSON.stringify({
