@@ -859,53 +859,7 @@
     </div>
   </div>
 
-  <div class="hero-visual fade-in fade-in-3">
-    <div class="hero-card">
-      <div class="hero-card-header">
-        <div class="avatar">А</div>
-        <div>
-          <div class="hero-card-name">Алексей Козлов</div>
-          <div class="hero-card-sub">Результаты Gallup загружены</div>
-        </div>
-      </div>
-      <div class="burnout-label">Уровень выгорания</div>
-      <div class="gauge-wrap">
-        <div class="gauge-bar"><div class="gauge-fill"></div></div>
-        <div class="gauge-status">
-          <span class="badge-low">Низкий</span>
-          <span class="gauge-pct">35%</span>
-        </div>
-      </div>
-      <div class="burnout-label" style="margin-top:16px">Топ-5 талантов</div>
-      <div class="talents-mini">
-        <div class="talent-mini-item">
-          <div class="talent-mini-icon">🧠</div>
-          <div>
-            <div class="talent-mini-name">Стратегия</div>
-            <div class="talent-mini-rank">#1 · Стратегическое мышление</div>
-          </div>
-        </div>
-        <div class="talent-mini-item">
-          <div class="talent-mini-icon">📚</div>
-          <div>
-            <div class="talent-mini-name">Обучаемость</div>
-            <div class="talent-mini-rank">#2 · Стратегическое мышление</div>
-          </div>
-        </div>
-        <div class="talent-mini-item">
-          <div class="talent-mini-icon">⚡</div>
-          <div>
-            <div class="talent-mini-name">Достиженец</div>
-            <div class="talent-mini-rank">#3 · Исполнение</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="hero-badge hero-badge-1">
-      <span class="badge-dot"></span> ИИ анализ готов
-    </div>
-    <div class="hero-badge hero-badge-2">🎯 Совпадение профессий: 94%</div>
-  </div>
+  <div class="hero-visual fade-in fade-in-3" style="display:none"></div>
 </div>
 
 <!-- HOW IT WORKS -->
@@ -959,8 +913,8 @@
             <input type="file" id="avatarInput" accept="image/*" style="display:none" onchange="previewAvatar(event)">
           </div>
           <div>
-            <div class="profile-name">Мария Иванова</div>
-            <div class="profile-role">Менеджер по продукту</div>
+            <div class="profile-name" id="profileName">Ваш профиль</div>
+            <div class="profile-role" id="profileRole">Войдите чтобы сохранить данные</div>
             <div style="font-size:11px;color:var(--blue);margin-top:4px;cursor:pointer" onclick="document.getElementById('avatarInput').click()">✏️ Изменить фото</div>
           </div>
         </div>
@@ -1519,6 +1473,11 @@ const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
    СОСТОЯНИЕ СЕССИИ — обновляет UI при входе/выходе
    ════════════════════════════════════════════════════ */
 async function initSession() {
+  // Обрабатываем redirect после Google OAuth — убираем токены из URL
+  if (window.location.hash.includes('access_token')) {
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
+
   const { data: { session } } = await sb.auth.getSession();
   if (session) onLoggedIn(session.user);
 
@@ -1527,9 +1486,7 @@ async function initSession() {
     else onLoggedOut();
   });
 
-  // Загружаем коучей из БД при старте
   loadCoaches();
-  // Загружаем последний результат теста если есть сессия
   if (session) loadLatestTestResult(session.user.id);
 }
 
@@ -1549,10 +1506,11 @@ async function upsertProfile(user) {
 async function loadProfile(userId) {
   const { data } = await sb.from('profiles').select('*').eq('id', userId).single();
   if (!data) return;
-  const nameEl = document.querySelector('.profile-name');
-  const roleEl = document.querySelector('.profile-role');
+  const nameEl = document.getElementById('profileName');
+  const roleEl = document.getElementById('profileRole');
   if (nameEl && data.full_name) nameEl.textContent = data.full_name;
-  if (roleEl && data.role)      roleEl.textContent = data.role;
+  if (roleEl && data.role) roleEl.textContent = data.role;
+  else if (roleEl && data.email) roleEl.textContent = data.email;
   if (data.avatar_url) {
     const display = document.getElementById('avatarDisplay');
     if (display) display.innerHTML = '<img src="' + data.avatar_url + '" alt="Фото">';
@@ -1713,8 +1671,12 @@ function onLoggedIn(user) {
     btn.textContent = '👤 ' + (user.user_metadata?.full_name || user.email?.split('@')[0] || 'Кабинет');
     btn.onclick = showUserMenu;
   }
-  const nameEl = document.querySelector('.profile-name');
-  if (nameEl && user.user_metadata?.full_name) nameEl.textContent = user.user_metadata.full_name;
+  // Обновляем профиль
+  const nameEl = document.getElementById('profileName');
+  const roleEl = document.getElementById('profileRole');
+  if (nameEl) nameEl.textContent = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Мой профиль';
+  if (roleEl) roleEl.textContent = user.email || '';
+  // Аватар из Google OAuth
   if (user.user_metadata?.avatar_url) {
     const display = document.getElementById('avatarDisplay');
     if (display) display.innerHTML = '<img src="' + user.user_metadata.avatar_url + '" alt="Фото">';
@@ -1723,7 +1685,7 @@ function onLoggedIn(user) {
   loadProfile(user.id);
   loadAvatarFromStorage(user.id);
   loadLatestTestResult(user.id);
-  initChat(user); // ← мульти-сессионный чат
+  initChat(user);
 }
 
 function onLoggedOut() {
@@ -2527,9 +2489,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (loginBtn) loginBtn.id = 'loginBtn';
   const regBtn = document.querySelector('#registerForm .btn-auth');
   if (regBtn) regBtn.id = 'registerBtn';
-
   initSession();
-  runConnectionTest();
 });
 </script>
 
