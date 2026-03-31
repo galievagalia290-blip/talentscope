@@ -4,9 +4,10 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
 
-  const { messages, max_tokens, temperature } = req.body;
   const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) return res.status(500).json({ error: { message: 'GEMINI_API_KEY not set in Vercel' } });
 
+  const { messages, max_tokens, temperature } = req.body;
   const systemMsg = messages?.find(m => m.role === 'system');
   const chatMsgs = messages?.filter(m => m.role !== 'system') || [];
 
@@ -20,6 +21,7 @@ export default async function handler(req, res) {
   if (systemMsg) geminiBody.systemInstruction = { parts: [{ text: systemMsg.content }] };
 
   const models = ['gemini-1.5-flash', 'gemini-1.5-flash-latest', 'gemini-1.0-pro', 'gemini-pro'];
+  let lastError = {};
 
   for (const model of models) {
     try {
@@ -29,11 +31,11 @@ export default async function handler(req, res) {
         body: JSON.stringify(geminiBody)
       });
       const data = await response.json();
-      if (!response.ok) continue;
+      if (!response.ok) { lastError = data; continue; }
       const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
       return res.status(200).json({ choices: [{ message: { role: 'assistant', content: text } }] });
-    } catch (e) { continue; }
+    } catch (e) { lastError = { message: e.message }; }
   }
 
-  res.status(500).json({ error: { message: 'All models failed' } });
+  res.status(500).json({ error: lastError });
 }
