@@ -5,9 +5,10 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   const { messages, max_tokens, temperature } = req.body;
+  const apiKey = process.env.GEMINI_API_KEY;
 
-  const systemMsg = messages.find(m => m.role === 'system');
-  const chatMsgs = messages.filter(m => m.role !== 'system');
+  const systemMsg = messages?.find(m => m.role === 'system');
+  const chatMsgs = messages?.filter(m => m.role !== 'system') || [];
 
   const geminiBody = {
     contents: chatMsgs.map(m => ({
@@ -18,18 +19,21 @@ export default async function handler(req, res) {
   };
   if (systemMsg) geminiBody.systemInstruction = { parts: [{ text: systemMsg.content }] };
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`;
+  const models = ['gemini-1.5-flash', 'gemini-1.5-flash-latest', 'gemini-1.0-pro', 'gemini-pro'];
 
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(geminiBody)
-  });
+  for (const model of models) {
+    try {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
+        body: JSON.stringify(geminiBody)
+      });
+      const data = await response.json();
+      if (!response.ok) continue;
+      const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+      return res.status(200).json({ choices: [{ message: { role: 'assistant', content: text } }] });
+    } catch (e) { continue; }
+  }
 
-  const data = await response.json();
-  if (!response.ok) return res.status(response.status).json(data);
-
-  res.status(200).json({
-    choices: [{ message: { role: 'assistant', content: data.candidates?.[0]?.content?.parts?.[0]?.text || '' } }]
-  });
+  res.status(500).json({ error: { message: 'All models failed' } });
 }
