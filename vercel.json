@@ -1,5 +1,5 @@
 {
   "rewrites": [
-    { "source": "/(.*)", "destination": "/talentscope.html" }
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
