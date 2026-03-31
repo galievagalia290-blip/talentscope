@@ -2167,9 +2167,9 @@ async function callOpenRouter(userMessage) {
   chatHistory.push({ role: 'user', content: userMessage });
   let lastError = null;
   const models = [
-    'openai/gpt-4o-mini',
-    'google/gemini-flash-1.5',
-    'meta-llama/llama-3.1-8b-instruct:free'
+    'gemini-2.0-flash',
+    'gemini-1.5-flash',
+    'gemini-2.0-flash-lite'
   ];
   for (const model of models) {
     try {
