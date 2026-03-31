@@ -1665,11 +1665,23 @@ function updateBurnoutUI(score, level) {
   if (ringTitle) ringTitle.textContent = (icons[level] || '🟢') + ' ' + (titles[level] || 'Низкий уровень');
   if (ringDesc)  ringDesc.textContent  = getBurnoutText(level);
 }
-
 function updateNavButton(user) {
-  // Ждём чтобы DOM точно обновился
-  setTimeout(() => {
-    const btns = document.querySelectorAll('.nav-cta');
+  const doUpdate = () => {
+    const btn = document.getElementById('navAuthBtn');
+    if (!btn) return;
+    if (user) {
+      const name = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Кабинет';
+      btn.textContent = '👤 ' + name;
+      btn.style.background = 'var(--blue)';
+      btn.onclick = (e) => { e.preventDefault(); showUserMenu(); };
+    } else {
+      btn.textContent = 'Войти →';
+      btn.onclick = (e) => { e.preventDefault(); openAuthModal(); };
+    }
+  };
+  doUpdate();
+  setTimeout(doUpdate, 300);
+}
     btns.forEach(btn => {
       if (user) {
         const name = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Кабинет';
