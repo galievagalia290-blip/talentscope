@@ -1682,20 +1682,7 @@ function updateNavButton(user) {
   doUpdate();
   setTimeout(doUpdate, 300);
 }
-    btns.forEach(btn => {
-      if (user) {
-        const name = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Кабинет';
-        btn.textContent = '👤 ' + name;
-        btn.style.background = 'var(--blue)';
-        btn.onclick = (e) => { e.preventDefault(); showUserMenu(); };
-      } else {
-        btn.textContent = 'Войти →';
-        btn.onclick = (e) => { e.preventDefault(); openAuthModal(); };
-      }
-    });
-  }, 100);
-}
-
+  
 function onLoggedIn(user) {
   updateNavButton(user);
 
