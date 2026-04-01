@@ -810,6 +810,7 @@
     .btn-primary, .btn-secondary { padding: 12px 20px; font-size: 14px; }
   }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
 <body>
 
@@ -1020,132 +1021,16 @@
   </div>
 </div>
 
-<!-- RESULTS / TALENTS SECTION — скрыт до загрузки Gallup -->
+<!-- RESULTS / TALENTS SECTION — показывается после загрузки Gallup -->
 <div class="section-gap"></div>
 <div class="results-section" id="results-section" style="display:none">
-  <div style="text-align:center; margin-bottom: 0;">
+  <div style="text-align:center; margin-bottom: 32px;">
     <div class="section-tag">Ваши результаты</div>
-    <h2 class="section-title" style="color:#fff">Топ-5 талантов — ваша суперсила</h2>
-    <p class="section-sub" style="color:rgba(255,255,255,.6)">Как Spotify Wrapped, только для вашей карьеры и жизни</p>
+    <h2 class="section-title" style="color:#fff">AI-анализ ваших талантов</h2>
+    <p class="section-sub" style="color:rgba(255,255,255,.6)">Персональный разбор на основе вашего Gallup-отчёта</p>
   </div>
-
-  <div class="talents-grid">
-    <div class="talent-card">
-      <span class="talent-card-rank">#1</span>
-      <span class="talent-card-icon">🧠</span>
-      <div class="talent-card-name">Стратегия</div>
-      <div class="talent-card-cat">Стратегическое мышление</div>
-      <div class="talent-card-desc">Вы быстро видите паттерны и создаёте альтернативные пути движения вперёд</div>
-    </div>
-    <div class="talent-card">
-      <span class="talent-card-rank">#2</span>
-      <span class="talent-card-icon">📚</span>
-      <div class="talent-card-name">Обучаемость</div>
-      <div class="talent-card-cat">Стратегическое мышление</div>
-      <div class="talent-card-desc">Процесс обучения увлекает вас так же, как и результат</div>
-    </div>
-    <div class="talent-card">
-      <span class="talent-card-rank">#3</span>
-      <span class="talent-card-icon">⚡</span>
-      <div class="talent-card-name">Достиженец</div>
-      <div class="talent-card-cat">Исполнение</div>
-      <div class="talent-card-desc">У вас внутренний огонь — вы постоянно стремитесь делать больше</div>
-    </div>
-    <div class="talent-card">
-      <span class="talent-card-rank">#4</span>
-      <span class="talent-card-icon">🔍</span>
-      <div class="talent-card-name">Аналитика</div>
-      <div class="talent-card-cat">Стратегическое мышление</div>
-      <div class="talent-card-desc">Вы ищете причины и следствия, проверяете данные и ищете закономерности</div>
-    </div>
-    <div class="talent-card">
-      <span class="talent-card-rank">#5</span>
-      <span class="talent-card-icon">💡</span>
-      <div class="talent-card-name">Идеация</div>
-      <div class="talent-card-cat">Стратегическое мышление</div>
-      <div class="talent-card-desc">Вас завораживают идеи — особенно неожиданные связи между разными явлениями</div>
-    </div>
-  </div>
-
-  <div class="ai-analysis">
-    <span class="ai-analysis-icon">✦</span>
-    <div>
-      <h4>Ваш профиль таланта</h4>
-      <p>Вы — стратегический мыслитель с сильными способностями к обучению и аналитическим складом ума. Четыре из ваших пяти топ-талантов относятся к домену «Стратегическое мышление» — это означает, что вы лучше всего реализуете потенциал в ролях, требующих анализа, планирования и создания нестандартных решений. Рекомендованные направления: Product Management, Strategy Consulting, Research, Entrepreneurship.</p>
-    </div>
-  </div>
-
-  <div class="radar-row">
-    <div class="radar-card">
-      <h4>Карьерные направления</h4>
-      <div class="career-cards">
-        <div class="career-card">
-          <span class="career-icon">📱</span>
-          <div>
-            <div class="career-title">Product Manager</div>
-            <div class="career-match">Совпадение 94%</div>
-          </div>
-          <div class="career-bar-wrap">
-            <div class="career-bar-bg"><div class="career-bar-fill" style="width:94%"></div></div>
-          </div>
-        </div>
-        <div class="career-card">
-          <span class="career-icon">🎯</span>
-          <div>
-            <div class="career-title">Strategy Consultant</div>
-            <div class="career-match">Совпадение 89%</div>
-          </div>
-          <div class="career-bar-wrap">
-            <div class="career-bar-bg"><div class="career-bar-fill" style="width:89%"></div></div>
-          </div>
-        </div>
-        <div class="career-card">
-          <span class="career-icon">🚀</span>
-          <div>
-            <div class="career-title">Предприниматель</div>
-            <div class="career-match">Совпадение 85%</div>
-          </div>
-          <div class="career-bar-wrap">
-            <div class="career-bar-bg"><div class="career-bar-fill" style="width:85%"></div></div>
-          </div>
-        </div>
-        <div class="career-card">
-          <span class="career-icon">🔬</span>
-          <div>
-            <div class="career-title">UX Researcher</div>
-            <div class="career-match">Совпадение 78%</div>
-          </div>
-          <div class="career-bar-wrap">
-            <div class="career-bar-bg"><div class="career-bar-fill" style="width:78%"></div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="radar-card">
-      <h4>Распределение доменов</h4>
-      <svg viewBox="0 0 220 220" style="width:100%;max-width:220px;margin:0 auto;display:block">
-        <!-- Radar chart for 4 domains -->
-        <polygon points="110,30 190,110 110,190 30,110" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
-        <polygon points="110,55 165,110 110,165 55,110" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
-        <polygon points="110,80 140,110 110,140 80,110" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
-        <line x1="110" y1="30" x2="110" y2="190" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
-        <line x1="30" y1="110" x2="190" y2="110" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
-        <!-- Data polygon -->
-        <polygon points="110,38 178,110 110,172 48,110" fill="rgba(91,127,255,.3)" stroke="#8F9BFF" stroke-width="2"/>
-        <!-- Labels -->
-        <text x="110" y="22" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="10" font-family="Manrope">Стратегия</text>
-        <text x="200" y="114" text-anchor="start" fill="rgba(255,255,255,.7)" font-size="10" font-family="Manrope">Влияние</text>
-        <text x="110" y="202" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="10" font-family="Manrope">Исполнение</text>
-        <text x="18" y="114" text-anchor="end" fill="rgba(255,255,255,.7)" font-size="10" font-family="Manrope">Отношения</text>
-        <!-- Dots -->
-        <circle cx="110" cy="38" r="4" fill="#8F9BFF"/>
-        <circle cx="178" cy="110" r="4" fill="#8F9BFF"/>
-        <circle cx="110" cy="172" r="4" fill="#8F9BFF"/>
-        <circle cx="48" cy="110" r="4" fill="#8F9BFF"/>
-      </svg>
-      <p style="font-size:12px;color:rgba(255,255,255,.5);text-align:center;margin-top:12px">80% ваших талантов — в домене «Стратегическое мышление»</p>
-    </div>
+  <div class="ai-analysis" id="gallupAiAnalysis" style="max-width:860px;margin:0 auto;line-height:1.85;font-size:15px;">
+    <!-- AI analysis inserted here -->
   </div>
 </div>
 
