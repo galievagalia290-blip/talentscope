@@ -2128,13 +2128,6 @@ function formatAnalysis(text) {
 
 async function handleGallupUpload(event) {
 
-  const file = event.target.files[0];
-  if (!file) return;
-  const statusEl = document.getElementById('uploadStatus');
-  statusEl.style.display = 'block';
-  statusEl.style.color = 'var(--blue)';
-  statusEl.textContent = '⏳ Загружаем файл...';
-  try {
     async function handleGallupUpload(event) {
   const file = event.target.files[0];
   if (!file) return;
