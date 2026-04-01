@@ -2098,7 +2098,36 @@ async function callOpenRouter(userMessage) {
 /* ═══════════════════════════════════════════════════
    📄 ЗАГРУЗКА GALLUP ФАЙЛА + AI АНАЛИЗ
    ════════════════════════════════════════════════════ */
+
+async function extractPdfText(file) {
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  const arrayBuffer = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+  let text = '';
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const page = await pdf.getPage(i);
+    const content = await page.getTextContent();
+    text += content.items.map(item => item.str).join(' ') + '\n\n';
+  }
+  return text.trim();
+}
+
+function formatAnalysis(text) {
+  return text
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/^#{3} (.+)$/gm, '<h4 style="color:#8F9BFF;margin:20px 0 8px;font-size:16px;font-weight:700">$1</h4>')
+    .replace(/^#{2} (.+)$/gm, '<h3 style="color:#fff;margin:28px 0 10px;font-size:19px;font-weight:700">$1</h3>')
+    .replace(/^# (.+)$/gm, '<h2 style="color:#fff;margin:32px 0 12px;font-size:22px;font-weight:800">$1</h2>')
+    .replace(/^(\d+)\. \*\*(.+?)\*\*/gm, '<div style="margin:16px 0 6px;font-size:16px;font-weight:700;color:#fff">$1. $2</div>')
+    .replace(/^(\d+)\. (.+)$/gm, '<div style="margin:8px 0;padding-left:4px">$1. $2</div>')
+    .replace(/^[-–•] (.+)$/gm, '<div style="margin:5px 0;padding-left:16px">• $1</div>')
+    .replace(/\n\n+/g, '<br><br>')
+    .replace(/\n/g, '<br>');
+}
+
 async function handleGallupUpload(event) {
+
   const file = event.target.files[0];
   if (!file) return;
   const statusEl = document.getElementById('uploadStatus');
@@ -2106,20 +2135,42 @@ async function handleGallupUpload(event) {
   statusEl.style.color = 'var(--blue)';
   statusEl.textContent = '⏳ Загружаем файл...';
   try {
-    const { data: { user } } = await sb.auth.getUser();
-    const userId = user?.id || 'guest';
-    const ext = file.name.split('.').pop();
-    const filePath = userId + '/gallup_' + Date.now() + '.' + ext;
-    const { error: uploadErr } = await sb.storage.from('avatars').upload(filePath, file, { upsert: true, contentType: file.type });
-    if (uploadErr) throw uploadErr;
-    statusEl.textContent = '✅ Файл загружен! Анализируем...';
-    if (OPENROUTER_KEY !== 'ВСТАВЬ_КЛЮЧ_OPENROUTER') {
-      const fileText = await new Promise(res => {
-        const r = new FileReader();
-        r.onload = e => res(e.target.result);
-        file.type.startsWith('image/') ? r.readAsDataURL(file) : r.readAsText(file);
-      });
-      const analysisPrompt = `Выступи в роли опытного карьерного консультанта, коуча по сильным сторонам и эксперта по интерпретации результатов Gallup CliftonStrengths.
+    async function handleGallupUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const statusEl = document.getElementById('uploadStatus');
+  statusEl.style.display = 'block';
+  statusEl.style.color = 'var(--blue)';
+
+  try {
+    let fileText = '';
+    if (file.type === 'application/pdf') {
+      statusEl.textContent = '📄 Читаем PDF...';
+      fileText = await extractPdfText(file);
+    } else if (file.type.startsWith('image/')) {
+      statusEl.style.color = 'var(--red)';
+      statusEl.textContent = '❌ Загрузите PDF-файл с результатами (не изображение).';
+      return;
+    } else {
+      statusEl.textContent = '📄 Читаем файл...';
+      fileText = await new Promise(res => { const r = new FileReader(); r.onload = e => res(e.target.result); r.readAsText(file); });
+    }
+
+    if (!fileText || fileText.trim().length < 30) {
+      statusEl.style.color = 'var(--red)';
+      statusEl.textContent = '❌ Не удалось прочитать файл. Убедитесь что PDF не защищён паролем.';
+      return;
+    }
+
+    try {
+      const { data: { user } } = await sb.auth.getUser();
+      const userId = user?.id || 'guest';
+      const filePath = userId + '/gallup_' + Date.now() + '.' + file.name.split('.').pop();
+      await sb.storage.from('avatars').upload(filePath, file, { upsert: true, contentType: file.type });
+    } catch (e) { console.warn('Storage upload skip:', e.message); }
+
+    statusEl.textContent = '🤖 AI анализирует ваши таланты...';
+    const analysisPrompt = `Выступи в роли опытного карьерного консультанта, коуча по сильным сторонам и эксперта по интерпретации результатов Gallup CliftonStrengths.
 
 Я дам тебе результаты теста Gallup. Твоя задача — провести глубокий, понятный и практичный анализ на русском языке, без воды, но с живыми примерами.
 
@@ -2162,29 +2213,39 @@ async function handleGallupUpload(event) {
 Пиши профессионально но понятно и человечно. Структурируй с подзаголовками. Анализируй только те таланты которые есть в результатах.
 
 Результаты Gallup-теста пользователя:
-${fileText.slice(0, 4000)}`;
-      statusEl.textContent = '🤖 AI анализирует таланты...';
-      const analysis = await callOpenRouter(analysisPrompt);
-      statusEl.textContent = '✅ Анализ готов! Смотри в чате ↑';
-      addMessage('bot', '📊 Анализ вашего Gallup-теста:\n\n' + analysis);
-      document.getElementById('chat-section').scrollIntoView({ behavior: 'smooth' });
-      document.getElementById('results-section').style.display = 'block';
-      // Сохраняем в БД только если пользователь авторизован — иначе RLS заблокирует
-      if (user && user.id) {
-        const { error: dbErr } = await sb.from('talent_results').insert({
-          user_id: user.id, ai_summary: analysis, status: 'done',
-          created_at: new Date().toISOString()
-        });
-        if (dbErr) console.warn('DB talent_results skip:', dbErr.message);
+${fileText.slice(0, 6000)}`;
+
+    const response = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: [{ role: 'user', content: analysisPrompt }], max_tokens: 2000, temperature: 0.7 })
+    });
+    if (!response.ok) throw new Error('Ошибка AI: ' + response.status);
+    const data = await response.json();
+    const analysis = data.choices?.[0]?.message?.content;
+    if (!analysis) throw new Error('Пустой ответ от AI');
+
+    const analysisEl = document.getElementById('gallupAiAnalysis');
+    analysisEl.innerHTML = formatAnalysis(analysis);
+    const resultsSection = document.getElementById('results-section');
+    resultsSection.style.display = 'block';
+    statusEl.textContent = '✅ Анализ готов! Смотри ниже ↓';
+    statusEl.style.color = 'var(--blue)';
+    resultsSection.scrollIntoView({ behavior: 'smooth' });
+
+    try {
+      const { data: { user } } = await sb.auth.getUser();
+      if (user?.id) {
+        await sb.from('talent_results').insert({ user_id: user.id, ai_summary: analysis, status: 'done', created_at: new Date().toISOString() });
       }
-    } else {
-      statusEl.textContent = '✅ Файл загружен! Добавьте ключ OpenRouter для AI-анализа.';
-    }
+    } catch (e) { console.warn('DB save skip:', e.message); }
+
   } catch(e) {
     statusEl.style.color = 'var(--red)';
     statusEl.textContent = '❌ Ошибка: ' + e.message;
   }
 }
+
 
 /* ═══════════════════════════════════════════════════
    📋 ТЕСТ НА ВЫГОРАНИЕ
